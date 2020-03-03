@@ -19,12 +19,12 @@
         from log
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="adminQueryAllLog" parameterType="java.util.Map" resultMap="BaseResultMap">
+    <select id="queryAllLog_Admin" parameterType="java.util.Map" resultMap="BaseResultMap">
         select
         *
         from log
     </select>
-    <select id="userQueryHisLog" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="queryOneUserLog" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         *
         from log
@@ -35,14 +35,14 @@
     delete from log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <delete id="userDeleteHisLog" parameterType="java.util.Map">
+    <delete id="deleteOneUserLog" parameterType="java.util.Map">
         delete from log where userId=#{userId,jdbcType=INTEGER}
         and id in
         <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
     </delete>
-    <delete id="adminDeleteLog" parameterType="java.lang.Integer">
+    <delete id="deleteLog_Admin" parameterType="java.lang.Integer">
         delete from log where 1>2
         or id in
         <foreach collection="array" item="item" index="index" open="(" separator="," close=")">

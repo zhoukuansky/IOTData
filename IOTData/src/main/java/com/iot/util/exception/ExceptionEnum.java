@@ -19,6 +19,7 @@ public enum ExceptionEnum {
 
     METHOD_FAILED(301, "请求方法错误，请尝试其他请求方法"),
     PARAMETER_ERROR(302, "上传参数不正确或不完整，请重新请求"),
+    SORT_ERROR(302, "排序字段错误"),
 
     UNKNOW_ERROR(100, "未知错误"),
     ;

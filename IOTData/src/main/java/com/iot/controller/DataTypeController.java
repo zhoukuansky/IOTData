@@ -1,12 +1,13 @@
 package com.iot.controller;
 
 import com.iot.framework.aop.SystemControllerLog;
+import com.iot.model.acceptParam.IdsOfDelete;
 import com.iot.model.resultAndPage.Result;
 import com.iot.service.AdminService;
 import com.iot.util.authentication.CurrentUser;
-import com.iot.util.authentication.VerificationUtil;
 import com.iot.util.exception.ExceptionHandle;
 import com.iot.util.exception.ResultUtil;
+import com.iot.util.myUtil.VerificationUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Api(tags = {"管理员设置可选数据类型"})
+@Api(tags = {"设置传感器数据类型（管理员）"})
 @RestController
 @RequestMapping("/dataTypeSetting")
 public class DataTypeController {
@@ -27,15 +28,17 @@ public class DataTypeController {
     private ExceptionHandle handle;
 
     @GetMapping("/queryAllDataType_Admin")
-    @SystemControllerLog(logAction = "adminQueryAllLog", logContent = "管理员查看所有数据类型")
-    @ApiOperation(value = "管理员查看所有数据类型", notes = "管理员查看所有数据类型")
+    @SystemControllerLog(logAction = "queryAllDataType_Admin", logContent = "查看所有数据类型（管理员）")
+    @ApiOperation(value = "查看所有数据类型（管理员）", notes = "查看所有数据类型（管理员）")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "第几页（不填默认为1)", required = false, dataType = "String"),
+            @ApiImplicitParam(name = "pageSize", value = "页面大小(不填默认为10)", required = false, dataType = "String"),
     })
-    public Result adminQueryAllDataType(@CurrentUser Map tokenData) throws Exception {
+    public Result queryAllDataType_Admin(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         VerificationUtil.adminVerification(tokenData);
         try {
-                result = ResultUtil.success(adminService.adminQueryAllDataType());
+            result = ResultUtil.success(adminService.queryAllDataType_Admin(pageNum, pageSize));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }
@@ -43,15 +46,33 @@ public class DataTypeController {
     }
 
     @PostMapping("/insertDataType_Admin")
-    @ApiOperation(value = "新建传感器数据类型", notes = "新建传感器数据类型")
+    @SystemControllerLog(logAction = "insertDataType_Admin", logContent = "新建传感器数据类型（管理员）")
+    @ApiOperation(value = "新建传感器数据类型（管理员）", notes = "新建传感器数据类型（管理员）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "word", value = "传感器数据类型（描述）", required = true, dataType = "String"),
     })
-    public Result insertUser(@RequestParam("word") String word,@CurrentUser Map tokenData) throws Exception{
+    public Result insertDataType_Admin(@RequestParam("word") String word, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         VerificationUtil.adminVerification(tokenData);
         try {
-            result = ResultUtil.success(adminService.adminInsertDataType(word));
+            result = ResultUtil.success(adminService.insertDataType_Admin(word));
+        } catch (Exception e) {
+            result = handle.exceptionGet(e);
+        }
+        return result;
+    }
+
+    @DeleteMapping("/deleteDataType_Admin")
+    @SystemControllerLog(logAction = "deleteDataType_Admin", logContent = "批量删除传感器数据类型（管理员）")
+    @ApiOperation(value = "批量删除传感器数据类型（管理员）", notes = "批量删除传感器数据类型（管理员）")
+    @ApiImplicitParams({
+    })
+    public Result deleteDataType_Admin(@RequestBody IdsOfDelete idsOfDelete, @CurrentUser Map tokenData) throws Exception {
+        Result result = ResultUtil.success();
+        VerificationUtil.adminVerification(tokenData);
+        int id = (int) tokenData.get("id");
+        try {
+            result = ResultUtil.success(adminService.deleteDataType_Admin(idsOfDelete.getIds()));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }

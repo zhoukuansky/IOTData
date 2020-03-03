@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(String tel,String password,String role);
+    int insert(String tel, String password, String role);
 
     int insertSelective(User record);
 
@@ -25,9 +25,9 @@ public interface UserMapper {
 
     void updatePassword(String password, int id);
 
-    List<User> adminQueryAllUser();
+    List<User> queryAllUser_Admin();
 
     User verifyPassword(int id, String password);
 
-    int adminDeleteAccount(int[] ids);
+    int deleteDataType_Admin(int[] ids);
 }

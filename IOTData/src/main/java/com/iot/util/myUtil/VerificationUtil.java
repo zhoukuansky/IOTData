@@ -1,4 +1,4 @@
-package com.iot.util.authentication;
+package com.iot.util.myUtil;
 
 import com.iot.util.exception.DescribeException;
 import com.iot.util.exception.ExceptionEnum;
@@ -22,5 +22,13 @@ public class VerificationUtil {
 
     public static int judgementUserId(Map tokenData,int userId) throws Exception{
         return 0;
+    }
+
+    public static void sortVerification(String sort) throws Exception{
+        if (sort.equals("ASC")||sort.equals("DESC")){
+            return;
+        }else {
+            throw new DescribeException(ExceptionEnum.SORT_ERROR);
+        }
     }
 }

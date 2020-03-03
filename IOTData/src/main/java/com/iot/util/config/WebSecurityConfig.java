@@ -28,8 +28,9 @@ public class WebSecurityConfig extends WebMvcConfigurationSupport {
                                 "/swagger-ui.html",
                                 "/swagger-resources",
                                 "/swagger-resources/**",
+                                "/webjars/**",
                                 "/IOTData",
-                                "/webjars/**"
+                                "/druid/**"
                         );
         super.addInterceptors(registry);
     }

@@ -4,13 +4,13 @@ import com.iot.model.Log;
 
 
 public interface LogService {
-    public Object adminQueryAllLog(int pageNum, int pageSize, String orderBy, String sort);
+    public Object queryAllLog_Admin(int pageNum, int pageSize, String orderBy, String sort);
 
-    public Object userQueryHisLog(int userId, int pageNum, int pageSize, String orderBy, String sort);
+    public Object queryOneUserLog(int userId, int pageNum, int pageSize, String orderBy, String sort);
 
     public int insert(Log log);
 
-    public int userDeleteHisLog(int[] ids, int userId);
+    public int deleteOneUserLog(int[] ids, int userId);
 
-    public int adminDeleteLog(int[] ids);
+    public int deleteLog_Admin(int[] ids);
 }

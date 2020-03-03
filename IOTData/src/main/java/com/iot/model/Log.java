@@ -54,10 +54,12 @@ public class Log {
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public String getCreateTime() {
         return createTime;
     }
+
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public void setCreateTime(String createTime) {
         this.createTime = createTime == null ? null : createTime.trim();

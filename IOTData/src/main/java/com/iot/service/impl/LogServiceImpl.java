@@ -17,17 +17,17 @@ public class LogServiceImpl implements LogService {
     private LogMapper logMapper;
 
     @Override
-    public Object adminQueryAllLog(int pageNum, int pageSize, String orderBy, String sort) {
+    public Object queryAllLog_Admin(int pageNum, int pageSize, String orderBy, String sort) {
         String order = orderBy + " " + sort;
         PageHelper.startPage(pageNum, pageSize, order);
-        return new PageResultBean<Log>(logMapper.adminQueryAllLog());
+        return new PageResultBean<Log>(logMapper.queryAllLog_Admin());
     }
 
     @Override
-    public Object userQueryHisLog(int userId, int pageNum, int pageSize, String orderBy, String sort) {
+    public Object queryOneUserLog(int userId, int pageNum, int pageSize, String orderBy, String sort) {
         String order = orderBy + " " + sort;
         PageHelper.startPage(pageNum, pageSize, order);
-        return new PageResultBean<Log>(logMapper.userQueryHisLog(userId));
+        return new PageResultBean<Log>(logMapper.queryOneUserLog(userId));
     }
 
     @Override
@@ -37,15 +37,15 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public int userDeleteHisLog(int[] ids, int userId) {
+    public int deleteOneUserLog(int[] ids, int userId) {
         Map<String, Object> params = new HashMap<String, Object>(2);
         params.put("userId", userId);
         params.put("ids", ids);
-        return logMapper.userDeleteHisLog(params);
+        return logMapper.deleteOneUserLog(params);
     }
 
     @Override
-    public int adminDeleteLog(int[] ids) {
-        return logMapper.adminDeleteLog(ids);
+    public int deleteLog_Admin(int[] ids) {
+        return logMapper.deleteLog_Admin(ids);
     }
 }

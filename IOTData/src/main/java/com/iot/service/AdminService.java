@@ -1,11 +1,35 @@
 package com.iot.service;
 
-import com.iot.model.DataType;
-
-import java.util.List;
-
+/**
+ * 此接口主要对只能hi管理员操作的direction、datatype、operation三张表做个统一
+ *
+ * @author HP
+ */
 public interface AdminService {
-    List<DataType> adminQueryAllDataType();
+    /**
+     * 传感器数据类型设置
+     */
+    Object queryAllDataType_Admin(int pageNum, int pageSize);
 
-    List<DataType> adminInsertDataType(String word);
+    Object insertDataType_Admin(String word);
+
+    Object deleteDataType_Admin(int[] ids);
+
+    /**
+     * 系统使用方向选择设置
+     */
+    Object queryAllDirectionType_Admin(Integer pageNum, Integer pageSize);
+
+    Object insertDirectionType_Admin(String word);
+
+    Object deleteDirectionType_Admin(int[] ids);
+
+    /**
+     * 系统操作系统类型设置
+     */
+    Object queryAllOperationType_Admin(Integer pageNum, Integer pageSize);
+
+    Object insertOperationType_Admin(String word);
+
+    Object deleteOperationType_Admin(int[] ids);
 }

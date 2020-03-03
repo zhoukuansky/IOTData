@@ -20,11 +20,11 @@ public interface LogMapper {
 
     int updateByPrimaryKey(Log record);
 
-    List<Log> adminQueryAllLog();
+    List<Log> queryAllLog_Admin();
 
-    List<Log> userQueryHisLog(int userId);
+    List<Log> queryOneUserLog(int userId);
 
-    int userDeleteHisLog(Map params);
+    int deleteOneUserLog(Map params);
 
-    int adminDeleteLog(int[] ids);
+    int deleteLog_Admin(int[] ids);
 }

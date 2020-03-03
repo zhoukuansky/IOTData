@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.iot.dao.DescriptionMapper">
-    <resultMap id="BaseResultMap" type="com.iot.model.Description">
+<mapper namespace="com.iot.dao.DirectionMapper">
+    <resultMap id="BaseResultMap" type="com.iot.model.Direction">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="word" property="word" jdbcType="CHAR"/>
     </resultMap>
@@ -11,19 +11,31 @@
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from description
+        from direction
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="queryAllDirectionType_Admin" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from direction
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from description
+    delete from direction
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.iot.model.Description">
-    insert into description (id, word)
-    values (#{id,jdbcType=INTEGER}, #{word,jdbcType=CHAR})
+    <delete id="deleteDirectionType_Admin" parameterType="java.lang.Integer">
+        delete from direction where 1>2
+        or id in
+        <foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.iot.model.Direction">
+    insert into direction (word)
+    values (#{word,jdbcType=CHAR})
   </insert>
-    <insert id="insertSelective" parameterType="com.iot.model.Description">
-        insert into description
+    <insert id="insertSelective" parameterType="com.iot.model.Direction">
+        insert into direction
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
@@ -41,8 +53,8 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.iot.model.Description">
-        update description
+    <update id="updateByPrimaryKeySelective" parameterType="com.iot.model.Direction">
+        update direction
         <set>
             <if test="word != null">
                 word = #{word,jdbcType=CHAR},
@@ -50,8 +62,8 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.iot.model.Description">
-    update description
+    <update id="updateByPrimaryKey" parameterType="com.iot.model.Direction">
+    update direction
     set word = #{word,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

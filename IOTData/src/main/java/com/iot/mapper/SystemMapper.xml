@@ -6,12 +6,12 @@
         <result column="name" property="name" jdbcType="CHAR"/>
         <result column="description" property="description" jdbcType="CHAR"/>
         <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="drectionId" property="drectionId" jdbcType="INTEGER"/>
+        <result column="directionId" property="directionId" jdbcType="INTEGER"/>
         <result column="operationId" property="operationId" jdbcType="INTEGER"/>
         <result column="userId" property="userId" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, name, description, createTime, drectionId, operationId, userId
+    id, name, description, createTime, directionId, operationId, userId
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
@@ -25,10 +25,10 @@
   </delete>
     <insert id="insert" parameterType="com.iot.model.System">
     insert into system (id, name, description,
-      createTime, drectionId, operationId, 
+      createTime, directionId, operationId,
       userId)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=CHAR}, #{description,jdbcType=CHAR},
-      #{createTime,jdbcType=TIMESTAMP}, #{drectionId,jdbcType=INTEGER}, #{operationId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{directionId,jdbcType=INTEGER}, #{operationId,jdbcType=INTEGER},
       #{userId,jdbcType=INTEGER})
   </insert>
     <insert id="insertSelective" parameterType="com.iot.model.System">
@@ -46,8 +46,8 @@
             <if test="createTime != null">
                 createTime,
             </if>
-            <if test="drectionId != null">
-                drectionId,
+            <if test="directionId != null">
+                directionId,
             </if>
             <if test="operationId != null">
                 operationId,
@@ -69,8 +69,8 @@
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="drectionId != null">
-                #{drectionId,jdbcType=INTEGER},
+            <if test="directionId != null">
+                #{directionId,jdbcType=INTEGER},
             </if>
             <if test="operationId != null">
                 #{operationId,jdbcType=INTEGER},
@@ -92,8 +92,8 @@
             <if test="createTime != null">
                 createTime = #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="drectionId != null">
-                drectionId = #{drectionId,jdbcType=INTEGER},
+            <if test="directionId != null">
+                directionId = #{directionId,jdbcType=INTEGER},
             </if>
             <if test="operationId != null">
                 operationId = #{operationId,jdbcType=INTEGER},
@@ -109,7 +109,7 @@
     set name = #{name,jdbcType=CHAR},
       description = #{description,jdbcType=CHAR},
       createTime = #{createTime,jdbcType=TIMESTAMP},
-      drectionId = #{drectionId,jdbcType=INTEGER},
+      directionId = #{directionId,jdbcType=INTEGER},
       operationId = #{operationId,jdbcType=INTEGER},
       userId = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

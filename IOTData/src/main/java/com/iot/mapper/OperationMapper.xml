@@ -14,13 +14,25 @@
         from operation
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="queryAllOperationType_Admin" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from operation
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from operation
     where id = #{id,jdbcType=INTEGER}
   </delete>
+    <delete id="deleteOperationType_Admin" parameterType="java.lang.Integer">
+        delete from operation where 1>2
+        or id in
+        <foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
     <insert id="insert" parameterType="com.iot.model.Operation">
-    insert into operation (id, word)
-    values (#{id,jdbcType=INTEGER}, #{word,jdbcType=CHAR})
+    insert into operation (word)
+    values (#{word,jdbcType=CHAR})
   </insert>
     <insert id="insertSelective" parameterType="com.iot.model.Operation">
         insert into operation

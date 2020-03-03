@@ -11,17 +11,17 @@ public interface UserService {
 
     Map login(String tel, String password);
 
-    Object userInformation(int id);
+    Object queryUserInformation(int id);
 
     Object updateUserInformation(String name, String email, String address, int id);
 
     void updatePassword(String password, int id);
 
-    Object adminQueryAllUser(int pageNum, int pageSize, String orderBy, String sort);
+    Object queryAllUser_Admin(int pageNum, int pageSize, String orderBy, String sort);
 
-    Object userDeleteAccount(String password, int userId);
+    Object deleteUserAccount(String password, int userId);
 
-    boolean verifyPassword(String password,int userId);
+    boolean verifyPassword(String password, int userId);
 
-    Object adminDeleteAccount(int id,String password,int[] ids);
+    Object deleteDataType_Admin(int id, String password, int[] ids);
 }

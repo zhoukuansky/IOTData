@@ -61,15 +61,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object userInformation(int id){
+    public Object queryUserInformation(int id){
         return userMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    public Object adminQueryAllUser(int pageNum, int pageSize, String orderBy, String sort){
+    public Object queryAllUser_Admin(int pageNum, int pageSize, String orderBy, String sort){
         String order = orderBy + " " + sort;
         PageHelper.startPage(pageNum, pageSize, order);
-        return new PageResultBean<User>(userMapper.adminQueryAllUser());
+        return new PageResultBean<User>(userMapper.queryAllUser_Admin());
     }
 
     @Override
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object userDeleteAccount(String password, int userId){
+    public Object deleteUserAccount(String password, int userId){
         userService.verifyPassword(password,userId);
         return userMapper.deleteByPrimaryKey(userId);
     }
@@ -105,8 +105,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object adminDeleteAccount(int id,String password,int[] ids){
+    public Object deleteDataType_Admin(int id,String password,int[] ids){
         userService.verifyPassword(password,id);
-        return userMapper.adminDeleteAccount(ids);
+        return userMapper.deleteDataType_Admin(ids);
     }
 }

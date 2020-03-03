@@ -1,6 +1,6 @@
 package com.iot.model;
 
-public class Description {
+public class Direction {
     private Integer id;
 
     private String word;

@@ -21,7 +21,7 @@
         from user
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="adminQueryAllUser" parameterType="java.util.Map" resultMap="BaseResultMap">
+    <select id="queryAllUser_Admin" parameterType="java.util.Map" resultMap="BaseResultMap">
         select
         *
         from user
@@ -49,7 +49,7 @@
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <delete id="adminDeleteAccount" parameterType="java.lang.Integer">
+    <delete id="deleteDataType_Admin" parameterType="java.lang.Integer">
         delete from user where 1>2
         or id in
         <foreach collection="array" item="item" index="index" open="(" separator="," close=")">
