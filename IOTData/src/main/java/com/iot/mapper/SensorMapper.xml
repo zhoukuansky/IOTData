@@ -6,12 +6,13 @@
         <result column="name" property="name" jdbcType="CHAR"/>
         <result column="description" property="description" jdbcType="CHAR"/>
         <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="dataTypeId" property="dataTypeId" jdbcType="INTEGER"/>
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="dataType" property="dataType" jdbcType="CHAR"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="systemId" property="systemId" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, name, description, createTime, dataTypeId, status, systemId
+    id, name, description, createTime, dataType, status, createTime, updateTime, systemId
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
@@ -19,35 +20,40 @@
         from sensor
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="querySensorBySystemId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from sensor
+        where systemId = #{systemId,jdbcType=INTEGER}
+    </select>
+    <select id="queryAllSensor_Admin" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from sensor
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sensor
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.iot.model.Sensor">
     insert into sensor (id, name, description,
-      createTime, dataTypeId, status, 
+      createTime, dataType, status,
       systemId)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=CHAR}, #{description,jdbcType=CHAR},
-      #{createTime,jdbcType=TIMESTAMP}, #{dataTypeId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{dataType,jdbcType=CHAR}, #{status,jdbcType=INTEGER},
       #{systemId,jdbcType=INTEGER})
   </insert>
-    <insert id="insertSelective" parameterType="com.iot.model.Sensor">
+    <insert id="insertSelective" parameterType="com.iot.model.acceptParam.SensorParam">
         insert into sensor
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
             <if test="name != null">
                 name,
             </if>
             <if test="description != null">
                 description,
             </if>
-            <if test="createTime != null">
-                createTime,
-            </if>
-            <if test="dataTypeId != null">
-                dataTypeId,
+            <if test="dataType != null">
+                dataType,
             </if>
             <if test="status != null">
                 status,
@@ -57,20 +63,14 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
             <if test="name != null">
                 #{name,jdbcType=CHAR},
             </if>
             <if test="description != null">
                 #{description,jdbcType=CHAR},
             </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="dataTypeId != null">
-                #{dataTypeId,jdbcType=INTEGER},
+            <if test="dataType != null">
+                #{dataType,jdbcType=CHAR},
             </if>
             <if test="status != null">
                 #{status,jdbcType=INTEGER},
@@ -80,7 +80,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.iot.model.Sensor">
+    <update id="updateByPrimaryKeySelective" parameterType="com.iot.model.acceptParam.SensorParam">
         update sensor
         <set>
             <if test="name != null">
@@ -89,17 +89,11 @@
             <if test="description != null">
                 description = #{description,jdbcType=CHAR},
             </if>
-            <if test="createTime != null">
-                createTime = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="dataTypeId != null">
-                dataTypeId = #{dataTypeId,jdbcType=INTEGER},
+            <if test="dataType != null">
+                dataType = #{dataType,jdbcType=CHAR},
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=INTEGER},
-            </if>
-            <if test="systemId != null">
-                systemId = #{systemId,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
@@ -109,7 +103,7 @@
     set name = #{name,jdbcType=CHAR},
       description = #{description,jdbcType=CHAR},
       createTime = #{createTime,jdbcType=TIMESTAMP},
-      dataTypeId = #{dataTypeId,jdbcType=INTEGER},
+      dataType = #{dataType,jdbcType=CHAR},
       status = #{status,jdbcType=INTEGER},
       systemId = #{systemId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

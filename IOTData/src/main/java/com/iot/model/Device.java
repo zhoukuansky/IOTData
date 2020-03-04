@@ -11,10 +11,13 @@ public class Device {
 
     private String description;
 
+    private Integer status;
+
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
-    private Integer status;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
 
     private Integer systemId;
 
@@ -42,6 +45,14 @@ public class Device {
         this.description = description == null ? null : description.trim();
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
@@ -52,12 +63,14 @@ public class Device {
         this.createTime = createTime;
     }
 
-    public Integer getStatus() {
-        return status;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public Integer getSystemId() {

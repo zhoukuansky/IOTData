@@ -4,18 +4,22 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-public class System {
+public class Systems {
     private Integer id;
 
     private String name;
 
     private String description;
+
+    private String direction;
+
+    private String operation;
+
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
-    private Integer drectionId;
-
-    private Integer operationId;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
 
     private Integer userId;
 
@@ -43,6 +47,22 @@ public class System {
         this.description = description == null ? null : description.trim();
     }
 
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
@@ -53,20 +73,14 @@ public class System {
         this.createTime = createTime;
     }
 
-    public Integer getDrectionId() {
-        return drectionId;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setDrectionId(Integer drectionId) {
-        this.drectionId = drectionId;
-    }
-
-    public Integer getOperationId() {
-        return operationId;
-    }
-
-    public void setOperationId(Integer operationId) {
-        this.operationId = operationId;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public Integer getUserId() {

@@ -1,8 +1,10 @@
 package com.iot.util.exception;
 
 import com.iot.model.resultAndPage.Result;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -36,6 +38,8 @@ public class ExceptionHandle {
             return ResultUtil.error(ExceptionEnum.METHOD_FAILED);
         } else if (e instanceof MissingServletRequestParameterException) {
             return ResultUtil.error(ExceptionEnum.PARAMETER_ERROR);
+        }else if (e instanceof DataIntegrityViolationException) {
+            return ResultUtil.error(ExceptionEnum.DATABASE_ERROR);
         }
         LOGGER.error("【系统异常】{}", e);
         return ResultUtil.error(ExceptionEnum.UNKNOW_ERROR);

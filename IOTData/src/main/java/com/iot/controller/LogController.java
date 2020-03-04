@@ -7,7 +7,7 @@ import com.iot.service.LogService;
 import com.iot.util.authentication.CurrentUser;
 import com.iot.util.exception.ExceptionHandle;
 import com.iot.util.exception.ResultUtil;
-import com.iot.util.myUtil.VerificationUtil;
+import com.iot.util.myUtil.MyVerificationUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Api(tags = {"日志操作"})
+@Api(tags = {"日志"})
 @RestController
 @RequestMapping("/log")
 public class LogController {
@@ -26,6 +26,9 @@ public class LogController {
 
     @Autowired
     private ExceptionHandle handle;
+
+    @Autowired
+    private MyVerificationUtil myVerificationUtil;
 
     @GetMapping("/queryAllLog_Admin")
     @SystemControllerLog(logAction = "queryAllLog_Admin", logContent = "查看所有日志操作（管理员）")
@@ -39,8 +42,8 @@ public class LogController {
     })
     public Result queryAllLog_Admin(@RequestParam(value = "userId", defaultValue = "-1", required = false) Integer userId, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(value = "orderBy", defaultValue = "id") String orderBy, @RequestParam(value = "sort", defaultValue = "ASC") String sort, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        VerificationUtil.adminVerification(tokenData);
-        VerificationUtil.sortVerification(sort);
+        myVerificationUtil.adminVerification(tokenData);
+        myVerificationUtil.sortVerification(sort);
         try {
             if (-1 == userId) {
                 result = ResultUtil.success(logService.queryAllLog_Admin(pageNum, pageSize, orderBy, sort));
@@ -64,7 +67,7 @@ public class LogController {
     })
     public Result queryOneUserLog(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(value = "orderBy", defaultValue = "id") String orderBy, @RequestParam(value = "sort", defaultValue = "ASC") String sort, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        VerificationUtil.sortVerification(sort);
+        myVerificationUtil.sortVerification(sort);
         int userId = (int) tokenData.get("id");
         try {
             result = ResultUtil.success(logService.queryOneUserLog(userId, pageNum, pageSize, orderBy, sort));
@@ -97,7 +100,7 @@ public class LogController {
     })
     public Result deleteLog_Admin(@RequestBody IdsOfDelete idsOfDelete, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        VerificationUtil.adminVerification(tokenData);
+        myVerificationUtil.adminVerification(tokenData);
         try {
             result = ResultUtil.success(logService.deleteLog_Admin(idsOfDelete.getIds()));
         } catch (Exception e) {

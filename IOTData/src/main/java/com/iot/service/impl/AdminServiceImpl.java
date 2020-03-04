@@ -14,30 +14,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired
-    DataTypeMapper dataTypeMapper;
+    private DataTypeMapper dataTypeMapper;
 
     @Autowired
-    DirectionMapper directionMapper;
+    private DirectionMapper directionMapper;
 
     @Autowired
-    OperationMapper operationMapper;
+    private OperationMapper operationMapper;
 
     @Autowired
-    AdminService adminService;
+    private AdminService adminService;
 
     /**
      * 传感器数据类型设置
      */
     @Override
-    public Object queryAllDataType_Admin(int pageNum,int pageSize) {
+    public Object queryAllDataType(int pageNum,int pageSize) {
         PageHelper.startPage(pageNum, pageSize, "id ASC");
-        return new PageResultBean<DataType>(dataTypeMapper.queryAllDataType_Admin());
+        return new PageResultBean<DataType>(dataTypeMapper.queryAllDataType());
     }
 
     @Override
-    public Object insertDataType_Admin(String word) {
+    public synchronized Object   insertDataType_Admin(String word) {
         dataTypeMapper.insert(word);
-        return adminService.queryAllDataType_Admin(1,100);
+        return adminService.queryAllDataType(1,100);
     }
 
     @Override
@@ -45,19 +45,24 @@ public class AdminServiceImpl implements AdminService {
         return dataTypeMapper.deleteDataType_Admin(ids);
     }
 
+    @Override
+    public Object queryOneDataType_Admin(int id){
+        return dataTypeMapper.selectByPrimaryKey(id);
+    }
+
     /**
      * 系统使用方向选择设置
      */
     @Override
-    public Object queryAllDirectionType_Admin(Integer pageNum, Integer pageSize) {
+    public Object queryAllDirectionType(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize, "id ASC");
-        return new PageResultBean<Direction>(directionMapper.queryAllDirectionType_Admin());
+        return new PageResultBean<Direction>(directionMapper.queryAllDirectionType());
     }
 
     @Override
-    public Object insertDirectionType_Admin(String word) {
+    public synchronized Object insertDirectionType_Admin(String word) {
         directionMapper.insert(word);
-        return adminService.queryAllDirectionType_Admin(1,100);
+        return adminService.queryAllDirectionType(1,100);
     }
 
     @Override
@@ -65,23 +70,33 @@ public class AdminServiceImpl implements AdminService {
         return directionMapper.deleteDirectionType_Admin(ids);
     }
 
+    @Override
+    public Object queryOneDirectionType_Admin(int id){
+        return directionMapper.selectByPrimaryKey(id);
+    }
+
     /**
      * 系统操作系统类型设置
      */
     @Override
-    public Object queryAllOperationType_Admin(Integer pageNum, Integer pageSize) {
+    public Object queryAllOperationType(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize, "id ASC");
-        return new PageResultBean<Direction>(operationMapper.queryAllOperationType_Admin());
+        return new PageResultBean<Direction>(operationMapper.queryAllOperationType());
     }
 
     @Override
-    public Object insertOperationType_Admin(String word) {
+    public synchronized Object insertOperationType_Admin(String word) {
         operationMapper.insert(word);
-        return adminService.queryAllOperationType_Admin(1,100);
+        return adminService.queryAllOperationType(1,100);
     }
 
     @Override
     public Object deleteOperationType_Admin(int[] ids) {
         return operationMapper.deleteOperationType_Admin(ids);
+    }
+
+    @Override
+    public Object queryOneOperationType_Admin(int id){
+        return operationMapper.selectByPrimaryKey(id);
     }
 }

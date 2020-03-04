@@ -9,6 +9,7 @@ import com.iot.service.UserService;
 import com.iot.util.authentication.JwtToken;
 import com.iot.util.exception.DescribeException;
 import com.iot.util.exception.ExceptionEnum;
+import com.iot.util.myUtil.MyApiKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +24,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MyApiKeyUtil myApiKeyUtil;
+
     @Override
     @SystemServiceLog(logAction = "register", logContent = "用户注册")
-    public  Map insertUser(String tel, String password, String role){
+    public synchronized Map insertUser(String tel, String password, String role){
         Map result = new HashMap();
         if(!role.equals("管理员")&&!role.equals("用户")){
             throw new DescribeException(ExceptionEnum.ROLE_SELECT_ERROR);
@@ -33,7 +37,8 @@ public class UserServiceImpl implements UserService {
         if (null==tel||null==password||null==role){
             throw new DescribeException(ExceptionEnum.INCOMPLETE_REGISTRATION_INFORMATION);
         }
-        userMapper.insert(tel,password,role);
+        String apiKey=myApiKeyUtil.createApiKey();
+        userMapper.insert(tel,password,role,apiKey);
         //这里采用result<Map>方式返回，而非直接返回的原因是aop日志，可以直接一个函数处理登录和注册，以免再写一个函数
         result.put("user",userService.queryUserByTel(tel));
         return result;
@@ -51,6 +56,10 @@ public class UserServiceImpl implements UserService {
         Map result = new HashMap();
         User loginUser=userMapper.login(tel,password);
         if (loginUser == null) {
+            User user=userService.queryUserByTel(tel);
+            if (user==null){
+                throw new DescribeException(ExceptionEnum.USER_NOT_FOUND);
+            }
             throw new DescribeException(ExceptionEnum.LOGIN_ERROR);
         }
         loginMap.put("id", loginUser.getId());
@@ -90,23 +99,39 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object deleteUserAccount(String password, int userId){
-        userService.verifyPassword(password,userId);
+    public Object deleteUserAccount(int userId){
         return userMapper.deleteByPrimaryKey(userId);
     }
 
     @Override
-    public boolean verifyPassword(String password,int userId){
+    public User verifyPassword(String password,int userId){
         User user=userMapper.verifyPassword(userId,password);
-        if (user == null) {
-            throw new DescribeException(ExceptionEnum.PASSWORD_ERRPOR);
-        }
-        return true;
+        return user;
     }
 
     @Override
-    public Object deleteDataType_Admin(int id,String password,int[] ids){
-        userService.verifyPassword(password,id);
-        return userMapper.deleteDataType_Admin(ids);
+    public Object deleteUser_Admin(int[] ids){
+        return userMapper.deleteUser_Admin(ids);
+    }
+
+
+    @Override
+    public User verifyApiKey(String apiKey){
+        return userMapper.verifyApiKey(apiKey);
+    }
+
+    @Override
+    public Map queryApiKey(int userId){
+        User user=userMapper.queryApiKey(userId);
+        Map<String,String> apiMap=new HashMap<String,String>();
+        apiMap.put("apiKey",user.getApiKey());
+        return apiMap;
+    }
+
+    @Override
+    public Map updateApiKey(int userId){
+        String apiKey=myApiKeyUtil.createApiKey();
+        userMapper.updateApiKey(userId,apiKey);
+        return userService.queryApiKey(userId);
     }
 }

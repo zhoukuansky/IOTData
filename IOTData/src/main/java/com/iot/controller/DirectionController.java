@@ -7,7 +7,7 @@ import com.iot.service.AdminService;
 import com.iot.util.authentication.CurrentUser;
 import com.iot.util.exception.ExceptionHandle;
 import com.iot.util.exception.ResultUtil;
-import com.iot.util.myUtil.VerificationUtil;
+import com.iot.util.myUtil.MyVerificationUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Api(tags = {"设置系统方向选择项（管理员）"})
+@Api(tags = {"设置系统方向选择项"})
 @RestController
 @RequestMapping("/directionDescribeSetting")
 public class DirectionController {
@@ -27,18 +27,20 @@ public class DirectionController {
     @Autowired
     private ExceptionHandle handle;
 
-    @GetMapping("/queryAllDirectionType_Admin")
-    @SystemControllerLog(logAction = "queryAllDirectionType_Admin", logContent = "查看所有系统可选择的方向类型（管理员）")
-    @ApiOperation(value = "查看所有系统可选择的方向类型（管理员）", notes = "查看所有系统可选择的方向类型（管理员）")
+    @Autowired
+    private MyVerificationUtil myVerificationUtil;
+
+    @GetMapping("/queryAllDirectionType")
+    @SystemControllerLog(logAction = "queryAllDirectionType", logContent = "查看所有系统可选择的方向类型")
+    @ApiOperation(value = "查看所有系统可选择的方向类型", notes = "查看所有系统可选择的方向类型")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "第几页（不填默认为1)", required = false, dataType = "String"),
             @ApiImplicitParam(name = "pageSize", value = "页面大小(不填默认为10)", required = false, dataType = "String"),
     })
-    public Result queryAllDirectionType_Admin(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,@CurrentUser Map tokenData) throws Exception {
+    public Result queryAllDirectionType(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,@CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        VerificationUtil.adminVerification(tokenData);
         try {
-            result = ResultUtil.success(adminService.queryAllDirectionType_Admin(pageNum,pageSize));
+            result = ResultUtil.success(adminService.queryAllDirectionType(pageNum,pageSize));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }
@@ -53,7 +55,7 @@ public class DirectionController {
     })
     public Result insertDirectionType_Admin(@RequestParam("word") String word, @CurrentUser Map tokenData) throws Exception{
         Result result = ResultUtil.success();
-        VerificationUtil.adminVerification(tokenData);
+        myVerificationUtil.adminVerification(tokenData);
         try {
             result = ResultUtil.success(adminService.insertDirectionType_Admin(word));
         } catch (Exception e) {
@@ -69,7 +71,7 @@ public class DirectionController {
     })
     public Result deleteDirectionType_Admin(@RequestBody IdsOfDelete idsOfDelete, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        VerificationUtil.adminVerification(tokenData);
+        myVerificationUtil.adminVerification(tokenData);
         int id = (int) tokenData.get("id");
         try {
             result = ResultUtil.success(adminService.deleteDirectionType_Admin(idsOfDelete.getIds()));

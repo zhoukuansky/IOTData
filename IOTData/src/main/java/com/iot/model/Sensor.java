@@ -10,12 +10,16 @@ public class Sensor {
     private String name;
 
     private String description;
+
+    private String dataType;
+
+    private Integer status;
+
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
-    private Integer dataTypeId;
-
-    private Integer status;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
 
     private Integer systemId;
 
@@ -43,6 +47,22 @@ public class Sensor {
         this.description = description == null ? null : description.trim();
     }
 
+    public String getDataTypeId() {
+        return dataType;
+    }
+
+    public void setDataTypeId(String dataTypeId) {
+        this.dataType = dataType;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
@@ -53,20 +73,14 @@ public class Sensor {
         this.createTime = createTime;
     }
 
-    public Integer getDataTypeId() {
-        return dataTypeId;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setDataTypeId(Integer dataTypeId) {
-        this.dataTypeId = dataTypeId;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public Integer getSystemId() {

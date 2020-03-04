@@ -14,7 +14,7 @@
         from direction
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="queryAllDirectionType_Admin" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="queryAllDirectionType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from direction

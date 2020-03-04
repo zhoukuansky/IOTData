@@ -11,9 +11,10 @@
         <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="role" property="role" jdbcType="CHAR"/>
+        <result column="apiKey" property="apiKey" jdbcType="CHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, tel, password, name, email, address, createTime, updateTime, role
+    id, tel, password, name, email, address, createTime, updateTime, role,apiKey
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
@@ -44,12 +45,24 @@
         from user
         where id = #{id,jdbcType=VARCHAR} and password = md5(#{password,jdbcType=VARCHAR})
     </select>
+    <select id="verifyApiKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where apiKey = #{apiKey,jdbcType=VARCHAR}
+    </select>
+    <select id="queryApiKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select *
+        from user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <delete id="deleteDataType_Admin" parameterType="java.lang.Integer">
+    <delete id="deleteUser_Admin" parameterType="java.lang.Integer">
         delete from user where 1>2
         or id in
         <foreach collection="array" item="item" index="index" open="(" separator="," close=")">
@@ -58,8 +71,8 @@
     </delete>
 
     <insert id="insert" parameterType="java.util.Map">
-    insert into user (tel, password, role)
-    values ( #{tel,jdbcType=CHAR}, md5(#{password,jdbcType=VARCHAR}), #{role,jdbcType=CHAR})
+    insert into user (tel, password, role, apiKey)
+    values ( #{tel,jdbcType=CHAR}, md5(#{password,jdbcType=VARCHAR}), #{role,jdbcType=CHAR}, #{apiKey,jdbcType=CHAR})
   </insert>
     <insert id="insertSelective" parameterType="com.iot.model.User">
         insert into user
@@ -156,6 +169,11 @@
       createTime = #{createTime,jdbcType=TIMESTAMP},
       updateTime = #{updateTime,jdbcType=TIME},
       role = #{role,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateApiKey" parameterType="java.util.Map">
+    update user
+    set apiKey = #{apiKey,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

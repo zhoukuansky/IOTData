@@ -7,7 +7,7 @@ import com.iot.service.UserService;
 import com.iot.util.authentication.CurrentUser;
 import com.iot.util.exception.ExceptionHandle;
 import com.iot.util.exception.ResultUtil;
-import com.iot.util.myUtil.VerificationUtil;
+import com.iot.util.myUtil.MyVerificationUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Api(tags = {"用户账户操作"})
+@Api(tags = {"用户账户"})
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -26,6 +26,9 @@ public class UserController {
 
     @Autowired
     private ExceptionHandle handle;
+
+    @Autowired
+    private MyVerificationUtil myVerificationUtil;
 
     @GetMapping("/queryUserInformation")
     @SystemControllerLog(logAction = "queryUserInformation", logContent = "用户查看自己信息")
@@ -43,11 +46,12 @@ public class UserController {
         return result;
     }
 
+
     @GetMapping("/queryAllUser_Admin")
     @SystemControllerLog(logAction = "queryAllUser_Admin", logContent = "查看所有用户数据（管理员）")
     @ApiOperation(value = "查看所有用户数据（管理员）", notes = "查看所有用户数据（管理员）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", value = "此项可不填：不填时查看所有日志记录，填时则单独查看某用户日志记录", required = false, dataType = "int"),
+            @ApiImplicitParam(name = "userId", value = "此项可不填：不填时查看所有用户信息，填时则单独查看某用户信息", required = false, dataType = "int"),
             @ApiImplicitParam(name = "pageNum", value = "第几页（不填默认为1)", required = false, dataType = "String"),
             @ApiImplicitParam(name = "pageSize", value = "页面大小(不填默认为10)", required = false, dataType = "String"),
             @ApiImplicitParam(name = "orderBy", value = "排序属性(不填默认“id”)", required = false, dataType = "String"),
@@ -55,7 +59,8 @@ public class UserController {
     })
     public Result queryAllUser_Admin(@RequestParam(value = "userId", defaultValue = "-1", required = false) Integer userId, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(value = "orderBy", defaultValue = "id") String orderBy, @RequestParam(value = "sort", defaultValue = "ASC") String sort, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        VerificationUtil.sortVerification(sort);
+        myVerificationUtil.adminVerification(tokenData);
+        myVerificationUtil.sortVerification(sort);
         try {
             if (-1 == userId) {
                 result = ResultUtil.success(userService.queryAllUser_Admin(pageNum, pageSize, orderBy, sort));
@@ -109,31 +114,33 @@ public class UserController {
     @SystemControllerLog(logAction = "deleteUserAccount", logContent = "用户注销账户")
     @ApiOperation(value = "用户注销账户", notes = "用户注销账户")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "password", value = "请输入密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "请验证密码", required = true, dataType = "String"),
     })
     public Result deleteUserAccount(@RequestParam("password") String password, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
+        myVerificationUtil.verifyPassword(password,userId);
         try {
-            result = ResultUtil.success(userService.deleteUserAccount(password, userId));
+            result = ResultUtil.success(userService.deleteUserAccount(userId));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }
         return result;
     }
 
-    @DeleteMapping("/deleteDataType_Admin")
-    @SystemControllerLog(logAction = "deleteDataType_Admin", logContent = "批量删除账户（管理员）")
+    @DeleteMapping("/deleteUser_Admin")
+    @SystemControllerLog(logAction = "deleteUser_Admin", logContent = "批量删除账户（管理员）")
     @ApiOperation(value = "批量删除账户（管理员）", notes = "批量删除账户（管理员）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "password", value = "请输入管理员账户密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "请验证管理员账户密码", required = true, dataType = "String"),
     })
-    public Result deleteDataType_Admin(@RequestParam("password") String password, @RequestBody IdsOfDelete idsOfDelete, @CurrentUser Map tokenData) throws Exception {
+    public Result deleteUser_Admin(@RequestParam("password") String password, @RequestBody IdsOfDelete idsOfDelete, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        VerificationUtil.adminVerification(tokenData);
-        int id = (int) tokenData.get("id");
+        int userId = (int) tokenData.get("id");
+        myVerificationUtil.adminVerification(tokenData);
+        myVerificationUtil.verifyPassword(password,userId);
         try {
-            result = ResultUtil.success(userService.deleteDataType_Admin(id, password, idsOfDelete.getIds()));
+            result = ResultUtil.success(userService.deleteUser_Admin(idsOfDelete.getIds()));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }

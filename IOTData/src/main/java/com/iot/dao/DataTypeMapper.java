@@ -19,7 +19,7 @@ public interface DataTypeMapper {
 
     int updateByPrimaryKey(DataType record);
 
-    List<DataType> queryAllDataType_Admin();
+    List<DataType> queryAllDataType();
 
     int insertDataType_Admin(String word);
 

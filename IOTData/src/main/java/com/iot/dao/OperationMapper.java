@@ -20,7 +20,7 @@ public interface OperationMapper {
 
     int updateByPrimaryKey(Operation record);
 
-    List<Direction> queryAllOperationType_Admin();
+    List<Direction> queryAllOperationType();
 
     int deleteOperationType_Admin(int[] ids);
 }

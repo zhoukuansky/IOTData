@@ -7,7 +7,7 @@ import com.iot.service.AdminService;
 import com.iot.util.authentication.CurrentUser;
 import com.iot.util.exception.ExceptionHandle;
 import com.iot.util.exception.ResultUtil;
-import com.iot.util.myUtil.VerificationUtil;
+import com.iot.util.myUtil.MyVerificationUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Api(tags = {"设置操作系统选择项（管理员）"})
+@Api(tags = {"设置操作系统选择项"})
 @RestController
 @RequestMapping("/directionDescribeSetting")
 public class OperationController {
@@ -27,18 +27,20 @@ public class OperationController {
     @Autowired
     private ExceptionHandle handle;
 
-    @GetMapping("/queryAllOperationType_Admin")
-    @SystemControllerLog(logAction = "queryAllOperationType_Admin", logContent = "查看所有的操作系统类型（管理员）")
-    @ApiOperation(value = "查看所有的操作系统类型（管理员）", notes = "查看所有的操作系统类型（管理员）")
+    @Autowired
+    private MyVerificationUtil myVerificationUtil;
+
+    @GetMapping("/queryAllOperationType")
+    @SystemControllerLog(logAction = "queryAllOperationType", logContent = "查看所有的操作系统类型")
+    @ApiOperation(value = "查看所有的操作系统类型", notes = "查看所有的操作系统类型")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "第几页（不填默认为1)", required = false, dataType = "String"),
             @ApiImplicitParam(name = "pageSize", value = "页面大小(不填默认为10)", required = false, dataType = "String"),
     })
-    public Result queryAllOperationType_Admin(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @CurrentUser Map tokenData) throws Exception {
+    public Result queryAllOperationType(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        VerificationUtil.adminVerification(tokenData);
         try {
-            result = ResultUtil.success(adminService.queryAllOperationType_Admin(pageNum,pageSize));
+            result = ResultUtil.success(adminService.queryAllOperationType(pageNum,pageSize));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }
@@ -53,7 +55,7 @@ public class OperationController {
     })
     public Result insertOperationType_Admin(@RequestParam("word") String word, @CurrentUser Map tokenData) throws Exception{
         Result result = ResultUtil.success();
-        VerificationUtil.adminVerification(tokenData);
+        myVerificationUtil.adminVerification(tokenData);
         try {
             result = ResultUtil.success(adminService.insertOperationType_Admin(word));
         } catch (Exception e) {
@@ -69,7 +71,7 @@ public class OperationController {
     })
     public Result deleteOperationType_Admin(@RequestBody IdsOfDelete idsOfDelete, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        VerificationUtil.adminVerification(tokenData);
+        myVerificationUtil.adminVerification(tokenData);
         int id = (int) tokenData.get("id");
         try {
             result = ResultUtil.success(adminService.deleteOperationType_Admin(idsOfDelete.getIds()));

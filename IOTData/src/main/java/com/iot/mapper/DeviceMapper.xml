@@ -5,12 +5,13 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="CHAR"/>
         <result column="description" property="description" jdbcType="CHAR"/>
-        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="systemId" property="systemId" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, name, description, createTime, status, systemId
+    id, name, description, status, createTime, updateTime, systemId
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
@@ -18,10 +19,23 @@
         from device
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="queryDeviceBySystemId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from device
+        where systemId = #{systemId,jdbcType=INTEGER}
+    </select>
+    <select id="queryAllDevice_Admin" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from device
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from device
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
     <insert id="insert" parameterType="com.iot.model.Device">
     insert into device (id, name, description,
       createTime, status, systemId
@@ -30,20 +44,14 @@
       #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{systemId,jdbcType=INTEGER}
       )
   </insert>
-    <insert id="insertSelective" parameterType="com.iot.model.Device">
+    <insert id="insertSelective" parameterType="com.iot.model.acceptParam.DeviceParam">
         insert into device
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
             <if test="name != null">
                 name,
             </if>
             <if test="description != null">
                 description,
-            </if>
-            <if test="createTime != null">
-                createTime,
             </if>
             <if test="status != null">
                 status,
@@ -53,17 +61,11 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
             <if test="name != null">
                 #{name,jdbcType=CHAR},
             </if>
             <if test="description != null">
                 #{description,jdbcType=CHAR},
-            </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="status != null">
                 #{status,jdbcType=INTEGER},
@@ -73,7 +75,8 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.iot.model.Device">
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.iot.model.acceptParam.DeviceParam">
         update device
         <set>
             <if test="name != null">
@@ -82,14 +85,8 @@
             <if test="description != null">
                 description = #{description,jdbcType=CHAR},
             </if>
-            <if test="createTime != null">
-                createTime = #{createTime,jdbcType=TIMESTAMP},
-            </if>
             <if test="status != null">
                 status = #{status,jdbcType=INTEGER},
-            </if>
-            <if test="systemId != null">
-                systemId = #{systemId,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

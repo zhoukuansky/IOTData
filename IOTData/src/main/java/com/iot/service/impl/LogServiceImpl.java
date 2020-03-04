@@ -31,7 +31,7 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public int insert(Log log) {
+    public synchronized int insert(Log log) {
         int i = logMapper.insert(log);
         return i;
     }

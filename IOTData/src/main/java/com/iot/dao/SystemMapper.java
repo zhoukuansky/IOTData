@@ -1,19 +1,28 @@
 package com.iot.dao;
 
-import com.iot.model.System;
+import com.iot.model.Systems;
+import com.iot.model.acceptParam.SystemParam;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface SystemMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(System record);
+    int insert(Systems record);
 
-    int insertSelective(System record);
+    int insertSelective(SystemParam systemParam);
 
-    System selectByPrimaryKey(Integer id);
+    Systems selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(System record);
+    int updateByPrimaryKeySelective(SystemParam systemParam);
 
-    int updateByPrimaryKey(System record);
+    int updateByPrimaryKey(Systems record);
+
+    List<Systems> queryUserSystemInformationByUserId(int userId);
+
+    List<Systems> queryAllSystemInformation_Admin();
+
+    Systems verifySystemInUser(int userId, int systemId);
 }

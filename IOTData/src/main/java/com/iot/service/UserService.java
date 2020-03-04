@@ -19,9 +19,15 @@ public interface UserService {
 
     Object queryAllUser_Admin(int pageNum, int pageSize, String orderBy, String sort);
 
-    Object deleteUserAccount(String password, int userId);
+    Object deleteUserAccount(int userId);
 
-    boolean verifyPassword(String password, int userId);
+    User verifyPassword(String password, int userId);
 
-    Object deleteDataType_Admin(int id, String password, int[] ids);
+    Object deleteUser_Admin(int[] ids);
+
+    User verifyApiKey(String apiKey);
+
+    Map queryApiKey(int userId);
+
+    Map updateApiKey(int userId);
 }

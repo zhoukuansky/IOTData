@@ -18,6 +18,7 @@ public class User {
     private String email;
 
     private String address;
+
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
@@ -25,6 +26,9 @@ public class User {
     private Date updateTime;
 
     private String role;
+
+    @JsonIgnore
+    private String apiKey;
 
     public Integer getId() {
         return id;
@@ -100,5 +104,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
     }
 }

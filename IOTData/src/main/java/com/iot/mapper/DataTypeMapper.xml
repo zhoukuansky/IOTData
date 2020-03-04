@@ -14,7 +14,7 @@
         from datatype
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="queryAllDataType_Admin" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="queryAllDataType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from datatype

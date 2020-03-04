@@ -14,7 +14,7 @@
         from operation
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="queryAllOperationType_Admin" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="queryAllOperationType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from operation

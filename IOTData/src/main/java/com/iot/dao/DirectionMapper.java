@@ -19,7 +19,7 @@ public interface DirectionMapper {
 
     int updateByPrimaryKey(Direction record);
 
-    List<Direction> queryAllDirectionType_Admin();
+    List<Direction> queryAllDirectionType();
 
     int deleteDirectionType_Admin(int[] ids);
 }
