@@ -1,0 +1,69 @@
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+  datasource:
+    url: jdbc:mysql://localhost:3306/IOTData?useUnicode=true&amp&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 初始化，最小，最大连接数
+      initialSize: 3
+      minidle: 3
+      maxActive: 18
+      # 获取数据库连接等待的超时时间
+      max-Wait: 60000
+      # 配置多久进行一次检测，检测需要关闭的空闲连接 单位毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall,slf4j
+      # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+      web-stat-filter:
+        enabled: true
+        url-pattern: "/*"
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      # 配置DruidStatViewServlet
+      stat-view-servlet:
+        url-pattern: "/druid/*"
+        # IP白名单(没有配置或者为空，则允许所有访问)
+        allow:
+        # IP黑名单 (存在共同时，deny优先于allow)
+        deny:
+        #  禁用HTML页面上的“Reset All”功能
+        reset-enable: false
+        # 登录名
+        login-username: root
+        # 登录密码
+        login-password: 123456
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    timeout: 5000ms
+    password: 123456
+    jedis:
+      Pool:
+        min-idle: 0 #连接池中的最小空闲连接
+        max-idle: 8  #连接池中的最大空闲连接
+        max-wait: -1 #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-active: 8 #连接池最大阻塞等待时间（使用负值表示没有限制）
+  mail:
+    username: zhoukuansky@163.com
+    password: zhoukuan8433
+    host: smtp.163.com
+    default-encoding: UTF-8
+mybatis:
+  mapper-locations: classpath*:com/**/mapper/*.xml
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
