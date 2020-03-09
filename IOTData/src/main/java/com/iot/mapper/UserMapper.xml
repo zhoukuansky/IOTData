@@ -27,6 +27,12 @@
         *
         from user
     </select>
+    <select id="selectByEmail" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where email = #{email,jdbcType=CHAR}
+    </select>
     <select id="selectByTel" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
@@ -37,7 +43,7 @@
         select
         <include refid="Base_Column_List"/>
         from user
-        where tel = #{tel,jdbcType=VARCHAR} and password = md5(#{password,jdbcType=VARCHAR})
+        where email = #{email,jdbcType=VARCHAR} and password = md5(#{password,jdbcType=VARCHAR})
     </select>
     <select id="verifyPassword" parameterType="java.util.Map" resultMap="BaseResultMap">
         select
@@ -71,8 +77,8 @@
     </delete>
 
     <insert id="insert" parameterType="java.util.Map">
-    insert into user (tel, password, role, apiKey)
-    values ( #{tel,jdbcType=CHAR}, md5(#{password,jdbcType=VARCHAR}), #{role,jdbcType=CHAR}, #{apiKey,jdbcType=CHAR})
+    insert into user (email, password, role, apiKey)
+    values ( #{email,jdbcType=CHAR}, md5(#{password,jdbcType=VARCHAR}), #{role,jdbcType=CHAR}, #{apiKey,jdbcType=CHAR})
   </insert>
     <insert id="insertSelective" parameterType="com.iot.model.User">
         insert into user

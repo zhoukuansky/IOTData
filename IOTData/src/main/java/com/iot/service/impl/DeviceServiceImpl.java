@@ -11,6 +11,9 @@ import com.iot.service.SystemService;
 import com.iot.util.exception.DescribeException;
 import com.iot.util.exception.ExceptionEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,11 +35,11 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public Object queryDeviceByUserId(int userId) {
-        List<Device> result=new ArrayList<Device>();
-        List<Systems> systems=systemService.queryUserSystemInformationByUserId(userId);
+        List<Device> result = new ArrayList<Device>();
+        List<Systems> systems = systemService.queryUserSystemInformationByUserId(userId);
         Iterator<Systems> it = systems.iterator();
-        while (it.hasNext()){
-            Systems s=(Systems) it.next();
+        while (it.hasNext()) {
+            Systems s = (Systems) it.next();
             result.addAll(deviceMapper.queryDeviceBySystemId(s.getId()));
         }
         return result;
@@ -52,7 +55,7 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public synchronized Object insertDevice(DeviceParam deviceParam) {
         deviceParam.setStatus(0);
-        if (deviceParam.getName()==null){
+        if (deviceParam.getName() == null) {
             throw new DescribeException(ExceptionEnum.DEVICE_INFORMATION_INCOMPLETE);
         }
         deviceMapper.insertSelective(deviceParam);
@@ -64,11 +67,15 @@ public class DeviceServiceImpl implements DeviceService {
         return deviceMapper.updateByPrimaryKeySelective(deviceParam);
     }
 
+    @Caching(evict={
+            @CacheEvict(value = "DeviceCache", key = "'verifyDevInUser_'+#deviceId"),
+    })
     @Override
     public Object deleteDevice(int deviceId) {
         return deviceMapper.deleteByPrimaryKey(deviceId);
     }
 
+    @Cacheable(value = "DeviceCache",key = "'verifyDevInUser_'+#deviceId",unless = "#result==null")
     @Override
     public Device verifyDeviceInUser(int deviceId) {
         return deviceMapper.selectByPrimaryKey(deviceId);

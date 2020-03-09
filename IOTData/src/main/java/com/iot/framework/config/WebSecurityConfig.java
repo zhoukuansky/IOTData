@@ -1,4 +1,4 @@
-package com.iot.util.config;
+package com.iot.framework.config;
 
 import com.iot.framework.interceptor.UserInterceptor;
 import com.iot.util.authentication.CurrentUserMethodArgumentResolver;
@@ -21,8 +21,7 @@ public class WebSecurityConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(userInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns
                         (
-                                "/loginAndRegister/login",
-                                "/loginAndRegister/register",
+                                "/loginAndRegister/**",
                                 "/",
                                 "/csrf",
                                 "/swagger-ui.html",

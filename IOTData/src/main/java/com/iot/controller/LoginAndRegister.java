@@ -4,6 +4,8 @@ import com.iot.model.resultAndPage.Result;
 import com.iot.service.UserService;
 import com.iot.util.exception.ExceptionHandle;
 import com.iot.util.exception.ResultUtil;
+import com.iot.util.myUtil.MyEmailUtil;
+import com.iot.util.myUtil.MyVerificationUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,33 +23,90 @@ public class LoginAndRegister {
     @Autowired
     private ExceptionHandle handle;
 
-    @PostMapping("/register")
-    @ApiOperation(value = "注册用户信息", notes = "注册用户")
+    @Autowired
+    private MyEmailUtil myEmailUtil;
+
+    @Autowired
+    private MyVerificationUtil myVerificationUtil;
+
+    @GetMapping("/email")
+    @ApiOperation(value = "发送注册邮箱验证邮件", notes = "发送注册邮箱验证邮件")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "tel", value = "用户tel", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "role", value = "账户角色，只有两种选择“用户”或者“管理员”", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String"),
     })
-    public Result insertUser(@RequestParam("tel") String tel, @RequestParam("password") String password, @RequestParam("role") String role) throws Exception {
+    public Result email( @RequestParam("email") String email) throws Exception {
         Result result = ResultUtil.success();
+        myVerificationUtil.verifyEmailExit(email);
+        myVerificationUtil.verifyEmailOutTime(email);
         try {
-            result = ResultUtil.success(userService.insertUser(tel, password, role));
+            myEmailUtil.sendMail(email);
+            result = ResultUtil.success();
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }
         return result;
     }
 
-    @GetMapping("/login")
-    @ApiOperation(value = "用户登录", notes = "用户登录")
+    @PostMapping("/tokenCheck")
+    @ApiOperation(value = "Token验证", notes = "Token验证")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "tel", value = "用户tel", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
     })
-    public Result login(@RequestParam("tel") String tel, @RequestParam("password") String password) throws Exception {
+    public Result tokenCheck() throws Exception {
         Result result = ResultUtil.success();
         try {
-            result = ResultUtil.success(userService.login(tel, password));
+            result = ResultUtil.success();
+        } catch (Exception e) {
+            result = handle.exceptionGet(e);
+        }
+        return result;
+    }
+
+    @PostMapping("/register")
+    @ApiOperation(value = "用户注册", notes = "用户注册")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "email", value = "email", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "emailCode", value = "验证码", required = true, dataType = "String"),
+    })
+    public Result insertUser(@RequestParam("email") String email, @RequestParam("password") String password,@RequestParam("emailCode") String emailCode) throws Exception {
+        Result result = ResultUtil.success();
+        myVerificationUtil.verifyEmialCode(email,emailCode);
+        try {
+            result = ResultUtil.success(userService.insertUser(email, password, "用户"));
+        } catch (Exception e) {
+            result = handle.exceptionGet(e);
+        }
+        return result;
+    }
+
+    @PostMapping("/register_Admin")
+    @ApiOperation(value = "管理员注册", notes = "管理员注册")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "email", value = "email", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "emailCode", value = "验证码", required = true, dataType = "String"),
+    })
+    public Result register_Admin(@RequestParam("email") String email, @RequestParam("password") String password,@RequestParam("emailCode") String emailCode) throws Exception {
+        Result result = ResultUtil.success();
+        myVerificationUtil.verifyEmialCode(email,emailCode);
+        try {
+            result = ResultUtil.success(userService.insertUser(email, password, "管理员"));
+        } catch (Exception e) {
+            result = handle.exceptionGet(e);
+        }
+        return result;
+    }
+
+    @PostMapping("/loginCheck")
+    @ApiOperation(value = "登录", notes = "登录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "email", value = "email", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
+    })
+    public Result login(@RequestParam("email") String email, @RequestParam("password") String password) throws Exception {
+        Result result = ResultUtil.success();
+        try {
+            result = ResultUtil.success(userService.login(email, password));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }

@@ -4,13 +4,12 @@ import com.iot.model.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(String tel, String password, String role,String apiKey);
+    int insert(String email, String password, String role, String apiKey);
 
     int insertSelective(User record);
 
@@ -20,9 +19,11 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
+    User selectByEmail(String email);
+
     User selectByTel(String tel);
 
-    User login(String tel, String password);
+    User login(String email, String password);
 
     void updatePassword(String password, int id);
 
@@ -36,5 +37,6 @@ public interface UserMapper {
 
     User queryApiKey(int id);
 
-    void updateApiKey(int id,String apiKey);
+    void updateApiKey(int id, String apiKey);
+
 }

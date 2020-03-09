@@ -7,6 +7,7 @@ import com.iot.service.UserService;
 import com.iot.util.authentication.CurrentUser;
 import com.iot.util.exception.ExceptionHandle;
 import com.iot.util.exception.ResultUtil;
+import com.iot.util.myUtil.MyEmailUtil;
 import com.iot.util.myUtil.MyVerificationUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -29,6 +30,9 @@ public class UserController {
 
     @Autowired
     private MyVerificationUtil myVerificationUtil;
+
+    @Autowired
+    private MyEmailUtil myEmailUtil;
 
     @GetMapping("/queryUserInformation")
     @SystemControllerLog(logAction = "queryUserInformation", logContent = "用户查看自己信息")
@@ -78,14 +82,17 @@ public class UserController {
     @ApiOperation(value = "用户更新自身信息", notes = "用户更新自身信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "用户昵称", required = false, dataType = "String"),
-            @ApiImplicitParam(name = "email", value = "邮箱", required = false, dataType = "String"),
+            @ApiImplicitParam(name = "tel", value = "手机", required = false, dataType = "String"),
             @ApiImplicitParam(name = "address", value = "地址", required = false, dataType = "String"),
     })
-    public Result updateUserInformation(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "email", required = false) String email, @RequestParam(value = "address", required = false) String address, @CurrentUser Map tokenData) throws Exception {
+    public Result updateUserInformation(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "tel", required = false) String tel, @RequestParam(value = "address", required = false) String address, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int id = (int) tokenData.get("id");
+        if (null!=tel){
+            myVerificationUtil.verifyTelExit(tel);
+        }
         try {
-            result = ResultUtil.success(userService.updateUserInformation(name, email, address, id));
+            result = ResultUtil.success(userService.updateUserInformation(name, tel, address, id));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }
@@ -96,11 +103,13 @@ public class UserController {
     @SystemControllerLog(logAction = "updatePassword", logContent = "修改密码")
     @ApiOperation(value = "修改密码", notes = "修改密码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "oldPassword", value = "旧密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "新密码", required = true, dataType = "String"),
     })
-    public Result updatePassword(@RequestParam("password") String password, @CurrentUser Map tokenData) throws Exception {
+    public Result updatePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("password") String password, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int id = (int) tokenData.get("id");
+        myVerificationUtil.verifyPassword(oldPassword, id);
         try {
             userService.updatePassword(password, id);
             result = ResultUtil.success();
@@ -114,12 +123,13 @@ public class UserController {
     @SystemControllerLog(logAction = "deleteUserAccount", logContent = "用户注销账户")
     @ApiOperation(value = "用户注销账户", notes = "用户注销账户")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "password", value = "请验证密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "emailCode", value = "验证码", required = true, dataType = "String"),
     })
-    public Result deleteUserAccount(@RequestParam("password") String password, @CurrentUser Map tokenData) throws Exception {
+    public Result deleteUserAccount(@RequestParam("emailCode") String emailCode,@CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifyPassword(password,userId);
+        String email=(String) tokenData.get("email");
+        myVerificationUtil.verifyEmialCode(email,emailCode);
         try {
             result = ResultUtil.success(userService.deleteUserAccount(userId));
         } catch (Exception e) {
@@ -132,15 +142,34 @@ public class UserController {
     @SystemControllerLog(logAction = "deleteUser_Admin", logContent = "批量删除账户（管理员）")
     @ApiOperation(value = "批量删除账户（管理员）", notes = "批量删除账户（管理员）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "password", value = "请验证管理员账户密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "emailCode", value = "验证码", required = true, dataType = "String"),
     })
-    public Result deleteUser_Admin(@RequestParam("password") String password, @RequestBody IdsOfDelete idsOfDelete, @CurrentUser Map tokenData) throws Exception {
+    public Result deleteUser_Admin(@RequestParam("emailCode") String emailCode, @RequestBody IdsOfDelete idsOfDelete, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
+        String email=(String) tokenData.get("email");
         myVerificationUtil.adminVerification(tokenData);
-        myVerificationUtil.verifyPassword(password,userId);
+        myVerificationUtil.verifyEmialCode(email,emailCode);
         try {
             result = ResultUtil.success(userService.deleteUser_Admin(idsOfDelete.getIds()));
+        } catch (Exception e) {
+            result = handle.exceptionGet(e);
+        }
+        return result;
+    }
+
+    @GetMapping("/emailDelete")
+    @ApiOperation(value = "发送注销账户验证邮件", notes = "发送注销账户验证邮件")
+    @ApiImplicitParams({
+    })
+    public Result email(@CurrentUser Map tokenData) throws Exception {
+        Result result = ResultUtil.success();
+        try {
+            int userId = (int) tokenData.get("id");
+            String email=(String) tokenData.get("email");
+            myVerificationUtil.verifyEmailOutTime(email);
+            myEmailUtil.sendMail(email);
+            result = ResultUtil.success();
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }

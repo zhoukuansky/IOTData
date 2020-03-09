@@ -37,10 +37,10 @@ public class DirectionController {
             @ApiImplicitParam(name = "pageNum", value = "第几页（不填默认为1)", required = false, dataType = "String"),
             @ApiImplicitParam(name = "pageSize", value = "页面大小(不填默认为10)", required = false, dataType = "String"),
     })
-    public Result queryAllDirectionType(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,@CurrentUser Map tokenData) throws Exception {
+    public Result queryAllDirectionType(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         try {
-            result = ResultUtil.success(adminService.queryAllDirectionType(pageNum,pageSize));
+            result = ResultUtil.success(adminService.queryAllDirectionType(pageNum, pageSize));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }
@@ -53,7 +53,7 @@ public class DirectionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "word", value = "新建系统方向选择项类型（描述）", required = true, dataType = "String"),
     })
-    public Result insertDirectionType_Admin(@RequestParam("word") String word, @CurrentUser Map tokenData) throws Exception{
+    public Result insertDirectionType_Admin(@RequestParam("word") String word, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         myVerificationUtil.adminVerification(tokenData);
         try {

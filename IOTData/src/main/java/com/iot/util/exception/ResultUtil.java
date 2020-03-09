@@ -11,7 +11,7 @@ public class ResultUtil {
      */
     public static Result success(Object object) {
         Result result = new Result();
-        result.setStatus(0);
+        result.setStatus(1);
         result.setMsg("成功");
         result.setData(object);
         return result;

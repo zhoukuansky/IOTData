@@ -1,7 +1,7 @@
 package com.iot.framework.interceptor;
 
 import com.iot.util.authentication.JwtToken;
-import com.iot.util.authentication.PassToken;
+import com.iot.util.authentication.ApiKeyPassToken;
 import com.iot.util.exception.DescribeException;
 import com.iot.util.exception.ExceptionEnum;
 import org.springframework.web.method.HandlerMethod;
@@ -33,8 +33,8 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
         HandlerMethod handlerMethod = (HandlerMethod) object;
         Method method = handlerMethod.getMethod();
         //检查是否有passtoken注释，有则跳过认证
-        if (method.isAnnotationPresent(PassToken.class)) {
-            PassToken passToken = method.getAnnotation(PassToken.class);
+        if (method.isAnnotationPresent(ApiKeyPassToken.class)) {
+            ApiKeyPassToken passToken = method.getAnnotation(ApiKeyPassToken.class);
             if (passToken.required()) {
                 return true;
             }

@@ -139,7 +139,8 @@ public class SystemLogAspect {
 
     /**
      * 后置通知 用于拦截Service层记录用户的操作
-     *这里主要用作记录登录和注册日志
+     * 这里主要用作记录登录和注册日志
+     *
      * @param joinPoint 切点
      */
     @AfterReturning(pointcut = "serviceAspect()", returning = "ret")
@@ -150,7 +151,7 @@ public class SystemLogAspect {
             // 请求的IP
             Log slm = getControllerAndServiceMethodDescription(joinPoint, 2);
 
-            User user=(User)ret.get("user");
+            User user = (User) ret.get("user");
             slm.setUserId(user.getId());
 
             String logIP = request.getRemoteAddr();

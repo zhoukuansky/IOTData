@@ -13,7 +13,7 @@ public class JwtToken {
 
     //创建token
     public static String createToken(Map<String, Object> claims) {
-               return Jwts.builder()
+        return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .signWith(SignatureAlgorithm.HS512, secret) //采用什么算法是可以自己选择的，不一定非要采用HS512

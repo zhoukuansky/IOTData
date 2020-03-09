@@ -5,15 +5,17 @@ import com.iot.model.User;
 import java.util.Map;
 
 public interface UserService {
-    Map insertUser(String tel, String password, String role);
+    Map insertUser(String email, String password, String role);
+
+    User queryUserByEmail(String email);
 
     User queryUserByTel(String tel);
 
-    Map login(String tel, String password);
+    Map login(String email, String password);
 
-    Object queryUserInformation(int id);
+    User queryUserInformation(int id);
 
-    Object updateUserInformation(String name, String email, String address, int id);
+    Object updateUserInformation(String name, String tel, String address, int id);
 
     void updatePassword(String password, int id);
 

@@ -43,6 +43,10 @@ public class PageResultBean<T> implements Serializable {
         init(rows);
     }
 
+    public PageResultBean(){
+
+    }
+
     /**
      * 初始化
      *

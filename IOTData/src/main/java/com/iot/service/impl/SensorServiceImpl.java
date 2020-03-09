@@ -11,6 +11,8 @@ import com.iot.service.SystemService;
 import com.iot.util.exception.DescribeException;
 import com.iot.util.exception.ExceptionEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,11 +34,11 @@ public class SensorServiceImpl implements SensorService {
 
     @Override
     public Object querySensorByUserId(int userId) {
-        List<Sensor> result=new ArrayList<Sensor>();
-        List<Systems> systems=systemService.queryUserSystemInformationByUserId(userId);
+        List<Sensor> result = new ArrayList<Sensor>();
+        List<Systems> systems = systemService.queryUserSystemInformationByUserId(userId);
         Iterator<Systems> it = systems.iterator();
-        while (it.hasNext()){
-            Systems s=(Systems) it.next();
+        while (it.hasNext()) {
+            Systems s = (Systems) it.next();
             result.addAll(sensorMapper.querySensorBySystemId(s.getId()));
         }
         return result;
@@ -52,7 +54,7 @@ public class SensorServiceImpl implements SensorService {
     @Override
     public synchronized Object insertSensor(SensorParam sensorParam) {
         sensorParam.setStatus(0);
-        if (sensorParam.getName()==null||sensorParam.getDataType()==null){
+        if (sensorParam.getName() == null || sensorParam.getDataType() == null) {
             throw new DescribeException(ExceptionEnum.SENSOR_INFORMATION_INCOMPLETE);
         }
         sensorMapper.insertSelective(sensorParam);
@@ -64,11 +66,14 @@ public class SensorServiceImpl implements SensorService {
         return sensorMapper.updateByPrimaryKeySelective(sensorParam);
     }
 
+
+    @CacheEvict(value = "SensorCache", key = "'verifySenInUser_'+#sensorId")
     @Override
     public Object deleteSensor(int sensorId) {
         return sensorMapper.deleteByPrimaryKey(sensorId);
     }
 
+    @Cacheable(value = "SensorCache",key = "'verifySenInUser_'+#sensorId",unless = "#result==null")
     @Override
     public Sensor verifySensorInUser(int sensorId) {
         return sensorMapper.selectByPrimaryKey(sensorId);

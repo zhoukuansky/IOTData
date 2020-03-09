@@ -29,15 +29,15 @@ public class AdminServiceImpl implements AdminService {
      * 传感器数据类型设置
      */
     @Override
-    public Object queryAllDataType(int pageNum,int pageSize) {
+    public Object queryAllDataType(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize, "id ASC");
         return new PageResultBean<DataType>(dataTypeMapper.queryAllDataType());
     }
 
     @Override
-    public synchronized Object   insertDataType_Admin(String word) {
+    public synchronized Object insertDataType_Admin(String word) {
         dataTypeMapper.insert(word);
-        return adminService.queryAllDataType(1,100);
+        return adminService.queryAllDataType(1, 100);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Object queryOneDataType_Admin(int id){
+    public Object queryOneDataType_Admin(int id) {
         return dataTypeMapper.selectByPrimaryKey(id);
     }
 
@@ -62,7 +62,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public synchronized Object insertDirectionType_Admin(String word) {
         directionMapper.insert(word);
-        return adminService.queryAllDirectionType(1,100);
+        return adminService.queryAllDirectionType(1, 100);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Object queryOneDirectionType_Admin(int id){
+    public Object queryOneDirectionType_Admin(int id) {
         return directionMapper.selectByPrimaryKey(id);
     }
 
@@ -87,7 +87,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public synchronized Object insertOperationType_Admin(String word) {
         operationMapper.insert(word);
-        return adminService.queryAllOperationType(1,100);
+        return adminService.queryAllOperationType(1, 100);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Object queryOneOperationType_Admin(int id){
+    public Object queryOneOperationType_Admin(int id) {
         return operationMapper.selectByPrimaryKey(id);
     }
 }

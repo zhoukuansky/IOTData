@@ -10,6 +10,9 @@ import com.iot.service.UserService;
 import com.iot.util.exception.DescribeException;
 import com.iot.util.exception.ExceptionEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +30,9 @@ public class SystemServiceImpl implements SystemService {
         return systemMapper.queryUserSystemInformationByUserId(userId);
     }
 
+    @Cacheable(value = "SystemCache",key = "'system_'+#systemId")
     @Override
-    public Object queryOneSystemInformation(Integer systemId){
+    public Object queryOneSystemInformation(Integer systemId) {
         return systemMapper.selectByPrimaryKey(systemId);
     }
 
@@ -41,26 +45,34 @@ public class SystemServiceImpl implements SystemService {
 
     @Override
     public synchronized Object insertSystem(SystemParam systemParam) {
-        if(systemParam.getDirection()==null||systemParam.getOperation()==null||systemParam.getName()==null){
+        if (systemParam.getDirection() == null || systemParam.getOperation() == null || systemParam.getName() == null) {
             throw new DescribeException(ExceptionEnum.SYSTEM_INFORMATION_INCOMPLETE);
         }
         systemMapper.insertSelective(systemParam);
         return systemMapper.queryUserSystemInformationByUserId(systemParam.getUserId());
     }
 
+    @Caching(evict={
+            @CacheEvict(value = "SystemCache",key = "'system_'+#systemParam.getId()")
+    })
     @Override
     public Object updateSystemInformation(SystemParam systemParam) {
         return systemMapper.updateByPrimaryKeySelective(systemParam);
     }
 
+    @Caching(evict={
+            @CacheEvict(value = "SystemCache", key ="'system_'+#systemId"),
+            @CacheEvict(value = "SystemCache", key = "'verifySysInUser_'+#systemId"),
+    })
     @Override
     public Object deleteSystem(int systemId) {
         return systemMapper.deleteByPrimaryKey(systemId);
     }
 
+    @Cacheable(value = "SystemCache",key = "'verifySysInUser_'+#systemId",unless = "#result==null")
     @Override
-    public Systems verifySystemInUser(int userId, int systemId){
-        Systems systems =systemMapper.verifySystemInUser(userId,systemId);
+    public Systems verifySystemInUser(int userId, int systemId) {
+        Systems systems = systemMapper.verifySystemInUser(userId, systemId);
         return systems;
     }
 }

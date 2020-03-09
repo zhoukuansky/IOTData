@@ -1,6 +1,11 @@
 package com.iot.model;
 
-public class DataType {
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+
+@Data
+@ApiModel(value = "传感器数据类型")
+public class DataType<T> {
     private Integer id;
 
     private String word;

@@ -30,15 +30,15 @@ public class ApiKeyController {
     private MyVerificationUtil myVerificationUtil;
 
     @GetMapping("/queryApiKey")
-    @SystemControllerLog(logAction = "queryApiKey", logContent = "用户查询自己的apiKey")
-    @ApiOperation(value = "用户查询自己的apiKey", notes = "用户查询自己的apiKey")
+    @SystemControllerLog(logAction = "queryApiKey", logContent = "用户查询自己的ApiKey")
+    @ApiOperation(value = "用户查询自己的ApiKey", notes = "用户查询自己的ApiKey")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "password", value = "验证密码", required = true, dataType = "String"),
     })
-    public Result queryApiKey(@RequestParam("password") String password,@CurrentUser Map tokenData) throws Exception {
+    public Result queryApiKey(@RequestParam("password") String password, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifyPassword(password,userId);
+        myVerificationUtil.verifyPassword(password, userId);
         try {
             result = ResultUtil.success(userService.queryApiKey(userId));
         } catch (Exception e) {
@@ -48,15 +48,15 @@ public class ApiKeyController {
     }
 
     @PutMapping("/updateApiKey")
-    @SystemControllerLog(logAction = "updateApiKey", logContent = "用户更新自己的apiKey")
-    @ApiOperation(value = "用户更新自己的apiKey", notes = "用户更新自己的apiKey")
+    @SystemControllerLog(logAction = "updateApiKey", logContent = "用户更新自己的ApiKey")
+    @ApiOperation(value = "用户更新自己的ApiKey", notes = "用户更新自己的ApiKey")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "password", value = "验证密码", required = true, dataType = "String"),
     })
     public Result updateApiKey(@RequestParam("password") String password, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifyPassword(password,userId);
+        myVerificationUtil.verifyPassword(password, userId);
         try {
             result = ResultUtil.success(userService.updateApiKey(userId));
         } catch (Exception e) {

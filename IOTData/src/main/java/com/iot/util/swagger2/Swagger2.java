@@ -9,6 +9,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -30,9 +31,10 @@ public class Swagger2 {
         List<Parameter> list = Arrays.asList(
                 new ParameterBuilder()
                         .name("token")
-                        .description("token（只有登陆和注册用户时可不填此参数,其他时候必填！）")
+                        .description("token（只有登陆和注册用户,下面四个接口,或者apiKey存在的地方可不填此参数！）")
                         .modelRef(new ModelRef("string"))
                         .parameterType("header")
+                        //.hidden(true)
                         .build()
         );
         return new Docket(DocumentationType.SWAGGER_2)
@@ -40,6 +42,7 @@ public class Swagger2 {
                 .globalOperationParameters(list)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.iot.controller"))
+                //.apis(RequestHandlerSelectors.basePackage("com.iot.model"))
                 .paths(PathSelectors.any())
                 .build()
                 .ignoredParameterTypes(CurrentUser.class);
@@ -49,7 +52,8 @@ public class Swagger2 {
         return new ApiInfoBuilder()
                 .title("IOTData_API文档")
                 .description("API使用及参数定义")
-                .termsOfServiceUrl("http://127.0.0.1:8080/swagger-ui.html#/")
+                .termsOfServiceUrl("http://114.115.243.22/IOTData/swagger-ui.html#")
+                .contact(new Contact("周宽、黄鑫","http://114.115.243.22/IOTData/swagger-ui.html#","zhoukuansky@163.com"))
                 .version("1.0")
                 .build();
     }

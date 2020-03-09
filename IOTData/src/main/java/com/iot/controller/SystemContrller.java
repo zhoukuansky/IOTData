@@ -30,7 +30,7 @@ public class SystemContrller {
     @Autowired
     private MyVerificationUtil myVerificationUtil;
 
-    @GetMapping("/queryUserSystemInformationByUserId")
+    @GetMapping("/getSys")
     @SystemControllerLog(logAction = "queryUserSystemInformationByUserId", logContent = "用户查看自己拥有的系统信息")
     @ApiOperation(value = "用户查看自己拥有的系统信息", notes = "用户查看自己拥有的系统信息")
     @ApiImplicitParams({
@@ -57,17 +57,16 @@ public class SystemContrller {
             @ApiImplicitParam(name = "orderBy", value = "排序属性(不填默认“id”)", required = false, dataType = "String"),
             @ApiImplicitParam(name = "sort", value = "正序或倒序[“ASC”或者“DESC”]（默认ASC）", required = false, dataType = "String"),
     })
-    public Result queryAllSystemInformation_Admin(@RequestParam(value = "userId", defaultValue = "-1", required = false) Integer userId, @RequestParam(value = "systemId", defaultValue = "-1", required = false) Integer systemId,@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(value = "orderBy", defaultValue = "id") String orderBy, @RequestParam(value = "sort", defaultValue = "ASC") String sort, @CurrentUser Map tokenData) throws Exception {
+    public Result queryAllSystemInformation_Admin(@RequestParam(value = "userId", defaultValue = "-1", required = false) Integer userId, @RequestParam(value = "systemId", defaultValue = "-1", required = false) Integer systemId, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(value = "orderBy", defaultValue = "id") String orderBy, @RequestParam(value = "sort", defaultValue = "ASC") String sort, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         myVerificationUtil.adminVerification(tokenData);
         myVerificationUtil.sortVerification(sort);
         try {
-            if (-1!=systemId) {
+            if (-1 != systemId) {
                 result = ResultUtil.success(systemService.queryOneSystemInformation(systemId));
-            } else if (-1!=userId){
+            } else if (-1 != userId) {
                 result = ResultUtil.success(systemService.queryUserSystemInformationByUserId(userId));
-            }
-            else {
+            } else {
                 result = ResultUtil.success(systemService.queryAllSystemInformation_Admin(pageNum, pageSize, orderBy, sort));
             }
         } catch (Exception e) {
@@ -76,12 +75,12 @@ public class SystemContrller {
         return result;
     }
 
-    @PostMapping("/insertSystem")
+    @PostMapping("/subSysData")
     @SystemControllerLog(logAction = "insertSystem", logContent = "新建系统")
     @ApiOperation(value = "新建系统", notes = "新建系统")
     @ApiImplicitParams({
     })
-    public Result insertSystem(@RequestBody SystemParam systemParam,@CurrentUser Map tokenData) throws Exception {
+    public Result insertSystem(@RequestBody SystemParam systemParam, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int id = (int) tokenData.get("id");
         systemParam.setUserId(id);
@@ -93,7 +92,7 @@ public class SystemContrller {
         return result;
     }
 
-    @PutMapping("/updateSystemInformation")
+    @PutMapping("/editSys")
     @SystemControllerLog(logAction = "updateSystemInformation", logContent = "用户更新系统信息")
     @ApiOperation(value = "用户更新系统信息", notes = "用户更新系统信息")
     @ApiImplicitParams({
@@ -101,7 +100,7 @@ public class SystemContrller {
     public Result updateSystemInformation(@RequestBody SystemParam systemParam, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifySystemInUser(userId,systemParam.getId());
+        myVerificationUtil.verifySystemInUser(userId, systemParam.getId());
         try {
             result = ResultUtil.success(systemService.updateSystemInformation(systemParam));
         } catch (Exception e) {
@@ -110,18 +109,17 @@ public class SystemContrller {
         return result;
     }
 
-    @DeleteMapping("/deleteSystem")
+    @DeleteMapping("/deleteSys")
     @SystemControllerLog(logAction = "deleteSystem", logContent = "用户删除系统")
     @ApiOperation(value = "用户删除系统", notes = "用户删除系统")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "password", value = "请验证密码", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "systemId", value = "系统id", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "sysId", value = "系统id", required = true, dataType = "int"),
     })
-    public Result deleteSystem(@RequestParam("password") String password,@RequestParam("systemId") int systemId, @CurrentUser Map tokenData) throws Exception {
+    public Result deleteSystem(@RequestParam("sysId") int sysId, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
+        int systemId=sysId;
         int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifyPassword(password,userId);
-        myVerificationUtil.verifySystemInUser(userId,systemId);
+        myVerificationUtil.verifySystemInUser(userId, systemId);
         try {
             result = ResultUtil.success(systemService.deleteSystem(systemId));
         } catch (Exception e) {

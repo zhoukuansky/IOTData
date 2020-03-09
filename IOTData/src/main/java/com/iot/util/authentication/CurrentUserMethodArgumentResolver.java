@@ -15,6 +15,7 @@ import java.util.Map;
  *
  * @author zhoukuan
  * @date 2019/2/12
+ * 自定义参数解析器
  * 此类通过注解获取在UserInterceptor中传入setAttribute中的值
  */
 public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentResolver {

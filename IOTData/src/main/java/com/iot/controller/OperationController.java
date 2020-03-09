@@ -40,7 +40,7 @@ public class OperationController {
     public Result queryAllOperationType(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         try {
-            result = ResultUtil.success(adminService.queryAllOperationType(pageNum,pageSize));
+            result = ResultUtil.success(adminService.queryAllOperationType(pageNum, pageSize));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }
@@ -53,7 +53,7 @@ public class OperationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "word", value = "新建系统方向选择项类型（描述）", required = true, dataType = "String"),
     })
-    public Result insertOperationType_Admin(@RequestParam("word") String word, @CurrentUser Map tokenData) throws Exception{
+    public Result insertOperationType_Admin(@RequestParam("word") String word, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         myVerificationUtil.adminVerification(tokenData);
         try {
