@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/numData")
 public class NumDataController {
-//    @Autowired
-//    private NumDataService numDataService;
+    @Autowired
+    private NumDataService numDataService;
 
     @Autowired
     private ExceptionHandle handle;
@@ -20,13 +20,13 @@ public class NumDataController {
     @Autowired
     private MyVerificationUtil myVerificationUtil;
 
-//    @GetMapping("/queryNumDataBySensorId")
-//    @SystemControllerLog(logAction = "queryNumDataBySensorId", logContent = "用户查看某传感器下的数值数据")
-//    @ApiOperation(value = "用户查看某传感器下的数值数据", notes = "用户查看某传感器下的数值数据")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "sensorId", value = "传感器id", required = true, dataType = "int"),
-//    })
-//    public Result querySensorBySystemId(@RequestParam("sensorId") Integer sensorId, @CurrentUser Map tokenData) throws Exception {
-//
-//    }
+    @GetMapping("/queryNumDataBySensorId")
+    @SystemControllerLog(logAction = "queryNumDataBySensorId", logContent = "用户查看某传感器下的数值数据")
+    @ApiOperation(value = "用户查看某传感器下的数值数据", notes = "用户查看某传感器下的数值数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sensorId", value = "传感器id", required = true, dataType = "int"),
+    })
+    public Result querySensorBySystemId(@RequestParam("sensorId") Integer sensorId, @CurrentUser Map tokenData) throws Exception {
+
+    }
 }
