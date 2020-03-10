@@ -36,7 +36,7 @@ public class SersorController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysId", value = "系统id", required = true, dataType = "int"),
     })
-    public Result querySensorBySystemId(@RequestParam("sysId") Integer sysId, @CurrentUser Map tokenData) throws Exception {
+    public Result querySensorBySystemId(@RequestParam Integer sysId, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
         myVerificationUtil.verifySystemInUser(userId, sysId);
@@ -133,7 +133,7 @@ public class SersorController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sensorId", value = "传感器id", required = true, dataType = "int"),
     })
-    public Result deleteSensor(@RequestParam("sensorId") int sensorId, @CurrentUser Map tokenData) throws Exception {
+    public Result deleteSensor(@RequestParam int sensorId, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
         myVerificationUtil.verifySensorInUser(userId, sensorId);

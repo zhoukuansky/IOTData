@@ -1,7 +1,6 @@
 package com.iot.controller;
 
 import com.iot.framework.aop.SystemControllerLog;
-import com.iot.model.acceptParam.IdsOfDelete;
 import com.iot.model.resultAndPage.Result;
 import com.iot.service.AdminService;
 import com.iot.util.authentication.CurrentUser;
@@ -68,13 +67,14 @@ public class DirectionController {
     @SystemControllerLog(logAction = "deleteDirectionType_Admin", logContent = "批量删除系统方向选择项（管理员）")
     @ApiOperation(value = "批量删除系统方向选择项（管理员）", notes = "批量删除系统方向选择项（管理员）")
     @ApiImplicitParams({
+            @ApiImplicitParam(name="ids[]", value="需要删除的id数组", required=true,allowMultiple=true, dataType = "int"),
     })
-    public Result deleteDirectionType_Admin(@RequestBody IdsOfDelete idsOfDelete, @CurrentUser Map tokenData) throws Exception {
+    public Result deleteDirectionType_Admin(@RequestParam(value = "ids[]") int[] ids, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         myVerificationUtil.adminVerification(tokenData);
         int id = (int) tokenData.get("id");
         try {
-            result = ResultUtil.success(adminService.deleteDirectionType_Admin(idsOfDelete.getIds()));
+            result = ResultUtil.success(adminService.deleteDirectionType_Admin(ids));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }

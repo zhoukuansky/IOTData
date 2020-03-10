@@ -1,7 +1,6 @@
 package com.iot.controller;
 
 import com.iot.framework.aop.SystemControllerLog;
-import com.iot.model.acceptParam.IdsOfDelete;
 import com.iot.model.resultAndPage.Result;
 import com.iot.service.LogService;
 import com.iot.util.authentication.CurrentUser;
@@ -81,12 +80,13 @@ public class LogController {
     @SystemControllerLog(logAction = "deleteOneUserLog", logContent = "用户删除自己的日志操作")
     @ApiOperation(value = "用户删除自己的日志操作", notes = "用户删除自己的日志操作")
     @ApiImplicitParams({
+            @ApiImplicitParam(name="ids[]", value="需要删除的id数组", required=true,allowMultiple=true, dataType = "int"),
     })
-    public Result deleteOneUserLog(@RequestBody IdsOfDelete idsOfDelete, @CurrentUser Map tokenData) throws Exception {
+    public Result deleteOneUserLog(@RequestParam(value = "ids[]") int[] ids, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
         try {
-            result = ResultUtil.success(logService.deleteOneUserLog(idsOfDelete.getIds(), userId));
+            result = ResultUtil.success(logService.deleteOneUserLog(ids, userId));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }
@@ -97,12 +97,13 @@ public class LogController {
     @SystemControllerLog(logAction = "deleteLog_Admin", logContent = "批量删除所有日志记录（管理员）")
     @ApiOperation(value = "批量删除所有日志记录（管理员）", notes = "批量删除所有日志记录（管理员）")
     @ApiImplicitParams({
+            @ApiImplicitParam(name="ids[]", value="需要删除的id数组", required=true,allowMultiple=true, dataType = "int"),
     })
-    public Result deleteLog_Admin(@RequestBody IdsOfDelete idsOfDelete, @CurrentUser Map tokenData) throws Exception {
+    public Result deleteLog_Admin(@RequestParam(value = "ids[]") int[] ids, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         myVerificationUtil.adminVerification(tokenData);
         try {
-            result = ResultUtil.success(logService.deleteLog_Admin(idsOfDelete.getIds()));
+            result = ResultUtil.success(logService.deleteLog_Admin(ids));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }

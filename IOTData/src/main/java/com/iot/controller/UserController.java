@@ -1,7 +1,6 @@
 package com.iot.controller;
 
 import com.iot.framework.aop.SystemControllerLog;
-import com.iot.model.acceptParam.IdsOfDelete;
 import com.iot.model.resultAndPage.Result;
 import com.iot.service.UserService;
 import com.iot.util.authentication.CurrentUser;
@@ -106,7 +105,7 @@ public class UserController {
             @ApiImplicitParam(name = "oldPassword", value = "旧密码", required = true, dataType = "String"),
             @ApiImplicitParam(name = "password", value = "新密码", required = true, dataType = "String"),
     })
-    public Result updatePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("password") String password, @CurrentUser Map tokenData) throws Exception {
+    public Result updatePassword(@RequestParam String oldPassword, @RequestParam("password") String password, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int id = (int) tokenData.get("id");
         myVerificationUtil.verifyPassword(oldPassword, id);
@@ -125,7 +124,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "emailCode", value = "验证码", required = true, dataType = "String"),
     })
-    public Result deleteUserAccount(@RequestParam("emailCode") String emailCode,@CurrentUser Map tokenData) throws Exception {
+    public Result deleteUserAccount(@RequestParam String emailCode,@CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
         String email=(String) tokenData.get("email");
@@ -143,15 +142,16 @@ public class UserController {
     @ApiOperation(value = "批量删除账户（管理员）", notes = "批量删除账户（管理员）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "emailCode", value = "验证码", required = true, dataType = "String"),
+            @ApiImplicitParam(name="ids[]", value="需要删除的id数组", required=true,allowMultiple=true, dataType = "int"),
     })
-    public Result deleteUser_Admin(@RequestParam("emailCode") String emailCode, @RequestBody IdsOfDelete idsOfDelete, @CurrentUser Map tokenData) throws Exception {
+    public Result deleteUser_Admin(@RequestParam String emailCode, @RequestParam(value = "ids[]") int[] ids, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
         String email=(String) tokenData.get("email");
         myVerificationUtil.adminVerification(tokenData);
         myVerificationUtil.verifyEmialCode(email,emailCode);
         try {
-            result = ResultUtil.success(userService.deleteUser_Admin(idsOfDelete.getIds()));
+            result = ResultUtil.success(userService.deleteUser_Admin(ids));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }

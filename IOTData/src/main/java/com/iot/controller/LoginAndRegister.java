@@ -34,7 +34,7 @@ public class LoginAndRegister {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String"),
     })
-    public Result email( @RequestParam("email") String email) throws Exception {
+    public Result email( @RequestParam String email) throws Exception {
         Result result = ResultUtil.success();
         myVerificationUtil.verifyEmailExit(email);
         myVerificationUtil.verifyEmailOutTime(email);
@@ -68,7 +68,7 @@ public class LoginAndRegister {
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
             @ApiImplicitParam(name = "emailCode", value = "验证码", required = true, dataType = "String"),
     })
-    public Result insertUser(@RequestParam("email") String email, @RequestParam("password") String password,@RequestParam("emailCode") String emailCode) throws Exception {
+    public Result insertUser(@RequestParam String email, @RequestParam String password,@RequestParam String emailCode) throws Exception {
         Result result = ResultUtil.success();
         myVerificationUtil.verifyEmialCode(email,emailCode);
         try {
@@ -86,7 +86,7 @@ public class LoginAndRegister {
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
             @ApiImplicitParam(name = "emailCode", value = "验证码", required = true, dataType = "String"),
     })
-    public Result register_Admin(@RequestParam("email") String email, @RequestParam("password") String password,@RequestParam("emailCode") String emailCode) throws Exception {
+    public Result register_Admin(@RequestParam String email, @RequestParam String password,@RequestParam String emailCode) throws Exception {
         Result result = ResultUtil.success();
         myVerificationUtil.verifyEmialCode(email,emailCode);
         try {
@@ -103,7 +103,7 @@ public class LoginAndRegister {
             @ApiImplicitParam(name = "email", value = "email", required = true, dataType = "String"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
     })
-    public Result login(@RequestParam("email") String email, @RequestParam("password") String password) throws Exception {
+    public Result login(@RequestParam String email, @RequestParam String password) throws Exception {
         Result result = ResultUtil.success();
         try {
             result = ResultUtil.success(userService.login(email, password));

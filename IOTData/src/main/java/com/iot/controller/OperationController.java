@@ -1,7 +1,6 @@
 package com.iot.controller;
 
 import com.iot.framework.aop.SystemControllerLog;
-import com.iot.model.acceptParam.IdsOfDelete;
 import com.iot.model.resultAndPage.Result;
 import com.iot.service.AdminService;
 import com.iot.util.authentication.CurrentUser;
@@ -53,7 +52,7 @@ public class OperationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "word", value = "新建系统方向选择项类型（描述）", required = true, dataType = "String"),
     })
-    public Result insertOperationType_Admin(@RequestParam("word") String word, @CurrentUser Map tokenData) throws Exception {
+    public Result insertOperationType_Admin(@RequestParam String word, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         myVerificationUtil.adminVerification(tokenData);
         try {
@@ -68,13 +67,14 @@ public class OperationController {
     @SystemControllerLog(logAction = "deleteOperationType_Admin", logContent = "批量删除操作系统选择项（管理员）")
     @ApiOperation(value = "批量删除操作系统选择项（管理员）", notes = "批量删除操作系统选择项（管理员）")
     @ApiImplicitParams({
+            @ApiImplicitParam(name="ids[]", value="需要删除的id数组", required=true,allowMultiple=true, dataType = "int"),
     })
-    public Result deleteOperationType_Admin(@RequestBody IdsOfDelete idsOfDelete, @CurrentUser Map tokenData) throws Exception {
+    public Result deleteOperationType_Admin(@RequestParam(value = "ids[]") int[] ids, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         myVerificationUtil.adminVerification(tokenData);
         int id = (int) tokenData.get("id");
         try {
-            result = ResultUtil.success(adminService.deleteOperationType_Admin(idsOfDelete.getIds()));
+            result = ResultUtil.success(adminService.deleteOperationType_Admin(ids));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }

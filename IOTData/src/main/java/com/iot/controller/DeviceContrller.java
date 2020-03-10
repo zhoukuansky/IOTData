@@ -36,7 +36,7 @@ public class DeviceContrller {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysId", value = "系统id", required = true, dataType = "int"),
     })
-    public Result queryDeviceBySystemId(@RequestParam("sysId") Integer sysId, @CurrentUser Map tokenData) throws Exception {
+    public Result queryDeviceBySystemId(@RequestParam Integer sysId, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
         myVerificationUtil.verifySystemInUser(userId, sysId);
@@ -133,7 +133,7 @@ public class DeviceContrller {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "/deleteDevice", value = "设备id", required = true, dataType = "int"),
     })
-    public Result deleteDevice(@RequestParam("devId") int devId, @CurrentUser Map tokenData) throws Exception {
+    public Result deleteDevice(@RequestParam int devId, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
         myVerificationUtil.verifyDeviceInUser(userId, devId);

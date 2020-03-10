@@ -132,7 +132,7 @@ public class SystemLogAspect {
             }
         } catch (Exception e) {
             // 记录本地异常日志
-            logger.error("前置通知异常,保存日志异常信息:{}", e.getMessage());
+            logger.error("后置通知异常,保存日志异常信息:{}", e.getMessage());
         }
     }
 

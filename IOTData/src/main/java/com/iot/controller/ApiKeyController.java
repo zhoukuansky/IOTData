@@ -35,7 +35,7 @@ public class ApiKeyController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "password", value = "验证密码", required = true, dataType = "String"),
     })
-    public Result queryApiKey(@RequestParam("password") String password, @CurrentUser Map tokenData) throws Exception {
+    public Result queryApiKey(@RequestParam String password, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
         myVerificationUtil.verifyPassword(password, userId);
@@ -53,7 +53,7 @@ public class ApiKeyController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "password", value = "验证密码", required = true, dataType = "String"),
     })
-    public Result updateApiKey(@RequestParam("password") String password, @CurrentUser Map tokenData) throws Exception {
+    public Result updateApiKey(@RequestParam String password, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int userId = (int) tokenData.get("id");
         myVerificationUtil.verifyPassword(password, userId);

@@ -115,7 +115,7 @@ public class SystemContrller {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysId", value = "系统id", required = true, dataType = "int"),
     })
-    public Result deleteSystem(@RequestParam("sysId") int sysId, @CurrentUser Map tokenData) throws Exception {
+    public Result deleteSystem(@RequestParam int sysId, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         int systemId=sysId;
         int userId = (int) tokenData.get("id");
