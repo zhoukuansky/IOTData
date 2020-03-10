@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 /**
  * 验证邮箱
@@ -39,6 +40,13 @@ public class MyEmailUtil {
         message.setSubject(subject);
         message.setText(text+code,true);
         message.setTo(email);
+
+        //465端口是为SMTPS（SMTP-over-SSL）协议服务开放的，这是SMTP协议基于SSL安全协议之上的一种变种协议。
+        Properties props = new Properties();
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+        mailSender.setJavaMailProperties(props);
+
         try {
             mailSender.send(mimeMessage);
         } catch (Exception e) {
