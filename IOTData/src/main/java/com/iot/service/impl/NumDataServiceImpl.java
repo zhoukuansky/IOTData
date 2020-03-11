@@ -29,7 +29,7 @@ public class NumDataServiceImpl implements NumDataService {
 
     @Override
     @SystemServiceLog(logAction = "insertNumDatas", logContent = "新增多条数值数据(数组传值)")
-    public Map insertNumDatas(String apiKey, int sensorId, double[] values) throws Exception {
+    public synchronized Map insertNumDatas(String apiKey, int sensorId, double[] values) throws Exception {
         User user = myVerificationUtil.verifyApiKeyInUserLinkSensorId(apiKey, sensorId);
         Map result = new HashMap();
         result.put("user", user);

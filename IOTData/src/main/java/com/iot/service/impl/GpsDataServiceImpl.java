@@ -29,7 +29,7 @@ public class GpsDataServiceImpl implements GpsDataService {
 
     @Override
     @SystemServiceLog(logAction = "insertGpsDatas", logContent = "新增一条Gps数据")
-    public Map insertGpsDatas(String apiKey, int sensorId, double lat, double lng) throws Exception{
+    public synchronized Map insertGpsDatas(String apiKey, int sensorId, double lat, double lng) throws Exception{
         User user = myVerificationUtil.verifyApiKeyInUserLinkSensorId(apiKey, sensorId);
         Map result = new HashMap();
         result.put("user", user);

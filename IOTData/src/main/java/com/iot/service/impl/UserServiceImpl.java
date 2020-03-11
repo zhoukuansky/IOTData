@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @SystemServiceLog(logAction = "register", logContent = "用户注册")
     public synchronized Map insertUser(String email, String password, String role) {
-        Map result = new HashMap();
+        Map<String,User> result = new HashMap<String,User>(16);
         String apiKey = myStringUtil.createApiKey();
         userMapper.insert(email, password, role, apiKey);
         //这里采用result<Map>方式返回，而非直接返回的原因是aop日志，可以直接一个函数处理登录和注册，以免再写一个函数
