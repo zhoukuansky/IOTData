@@ -1,5 +1,6 @@
 package com.iot.controller;
 
+import com.iot.service.ImgDataService;
 import com.iot.util.exception.ExceptionHandle;
 import com.iot.util.myUtil.MyVerificationUtil;
 import io.swagger.annotations.Api;
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/imgData")
 public class ImgDataController {
-//    @Autowired
-//    private ImgDataService imgDataService;
+    @Autowired
+    private ImgDataService imgDataService;
 
     @Autowired
     private ExceptionHandle handle;
 
     @Autowired
     private MyVerificationUtil myVerificationUtil;
+
+
 }
