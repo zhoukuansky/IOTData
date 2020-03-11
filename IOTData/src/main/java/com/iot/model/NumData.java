@@ -13,7 +13,7 @@ public class NumData {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
-    private Integer sersorId;
+    private Integer sensorId;
 
     public Integer getId() {
         return id;
@@ -51,11 +51,11 @@ public class NumData {
         this.updateTime = updateTime;
     }
 
-    public Integer getSersorId() {
-        return sersorId;
+    public Integer getSensorId() {
+        return sensorId;
     }
 
-    public void setSersorId(Integer sersorId) {
-        this.sersorId = sersorId;
+    public void setSensorId(Integer sensorId) {
+        this.sensorId = sensorId;
     }
 }

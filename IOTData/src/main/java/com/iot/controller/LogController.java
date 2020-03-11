@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Api(tags = {"日志"})
+@Api(tags = {"#####日志"})
 @RestController
 @RequestMapping("/log")
 public class LogController {
@@ -41,9 +41,9 @@ public class LogController {
     })
     public Result queryAllLog_Admin(@RequestParam(value = "userId", defaultValue = "-1", required = false) Integer userId, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(value = "orderBy", defaultValue = "id") String orderBy, @RequestParam(value = "sort", defaultValue = "ASC") String sort, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        myVerificationUtil.adminVerification(tokenData);
-        myVerificationUtil.sortVerification(sort);
         try {
+            myVerificationUtil.adminVerification(tokenData);
+            myVerificationUtil.sortVerification(sort);
             if (-1 == userId) {
                 result = ResultUtil.success(logService.queryAllLog_Admin(pageNum, pageSize, orderBy, sort));
             } else {
@@ -66,9 +66,9 @@ public class LogController {
     })
     public Result queryOneUserLog(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(value = "orderBy", defaultValue = "id") String orderBy, @RequestParam(value = "sort", defaultValue = "ASC") String sort, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        myVerificationUtil.sortVerification(sort);
-        int userId = (int) tokenData.get("id");
         try {
+            myVerificationUtil.sortVerification(sort);
+            int userId = (int) tokenData.get("id");
             result = ResultUtil.success(logService.queryOneUserLog(userId, pageNum, pageSize, orderBy, sort));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -80,7 +80,7 @@ public class LogController {
     @SystemControllerLog(logAction = "deleteOneUserLog", logContent = "用户删除自己的日志操作")
     @ApiOperation(value = "用户删除自己的日志操作", notes = "用户删除自己的日志操作")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="ids[]", value="需要删除的id数组", required=true,allowMultiple=true, dataType = "int"),
+            @ApiImplicitParam(name = "ids[]", value = "需要删除的id数组", required = true, allowMultiple = true, dataType = "int"),
     })
     public Result deleteOneUserLog(@RequestParam(value = "ids[]") int[] ids, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
@@ -97,7 +97,7 @@ public class LogController {
     @SystemControllerLog(logAction = "deleteLog_Admin", logContent = "批量删除所有日志记录（管理员）")
     @ApiOperation(value = "批量删除所有日志记录（管理员）", notes = "批量删除所有日志记录（管理员）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="ids[]", value="需要删除的id数组", required=true,allowMultiple=true, dataType = "int"),
+            @ApiImplicitParam(name = "ids[]", value = "需要删除的id数组", required = true, allowMultiple = true, dataType = "int"),
     })
     public Result deleteLog_Admin(@RequestParam(value = "ids[]") int[] ids, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();

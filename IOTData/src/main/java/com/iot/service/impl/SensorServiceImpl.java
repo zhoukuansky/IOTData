@@ -73,7 +73,7 @@ public class SensorServiceImpl implements SensorService {
         return sensorMapper.deleteByPrimaryKey(sensorId);
     }
 
-    @Cacheable(value = "SensorCache",key = "'verifySenInUser_'+#sensorId",unless = "#result==null")
+    @Cacheable(value = "SensorCache", key = "'verifySenInUser_'+#sensorId", unless = "#result==null")
     @Override
     public Sensor verifySensorInUser(int sensorId) {
         return sensorMapper.selectByPrimaryKey(sensorId);

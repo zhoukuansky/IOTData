@@ -19,6 +19,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import java.lang.reflect.Field;
 import java.time.Duration;
 import java.util.Map;
+
 @Slf4j
 @Configuration
 @EnableCaching
@@ -91,6 +92,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
 
     /**
      * 自定义生成key的规则
+     *
      * @return
      */
     @Override
@@ -113,6 +115,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
             return sb.toString();
         };
     }
+
     //自定义keyGenerator，Key生成器
     @Bean
     public KeyGenerator updateByIdkeyGenerator() {
@@ -136,6 +139,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
             return sb.toString();
         };
     }
+
     //自定义keyGenerator，Key生成器
     @Bean
     public KeyGenerator deleteByIdkeyGenerator() {

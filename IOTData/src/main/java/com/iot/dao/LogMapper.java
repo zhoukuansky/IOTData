@@ -4,7 +4,6 @@ import com.iot.model.Log;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface LogMapper {
@@ -24,7 +23,7 @@ public interface LogMapper {
 
     List<Log> queryOneUserLog(int userId);
 
-    int deleteOneUserLog(Map params);
+    int deleteOneUserLog(int[] ids,int userId);
 
     int deleteLog_Admin(int[] ids);
 }

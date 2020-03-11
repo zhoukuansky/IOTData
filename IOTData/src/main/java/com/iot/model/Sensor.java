@@ -47,11 +47,11 @@ public class Sensor {
         this.description = description == null ? null : description.trim();
     }
 
-    public String getDataTypeId() {
+    public String getDataType() {
         return dataType;
     }
 
-    public void setDataTypeId(String dataTypeId) {
+    public void setDataType(String dataType) {
         this.dataType = dataType;
     }
 

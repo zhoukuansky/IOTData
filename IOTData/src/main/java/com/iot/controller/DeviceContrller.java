@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Api(tags = {"设备"})
+@Api(tags = {"中间层——设备"})
 @RestController
 @RequestMapping("/device")
 public class DeviceContrller {
@@ -38,9 +38,9 @@ public class DeviceContrller {
     })
     public Result queryDeviceBySystemId(@RequestParam Integer sysId, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifySystemInUser(userId, sysId);
         try {
+            int userId = (int) tokenData.get("id");
+            myVerificationUtil.verifySystemInUser(userId, sysId);
             result = ResultUtil.success(deviceService.queryDeviceBySystemId(sysId));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -55,8 +55,8 @@ public class DeviceContrller {
     })
     public Result queryDeviceByUserId(@CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
         try {
+            int userId = (int) tokenData.get("id");
             result = ResultUtil.success(deviceService.queryDeviceByUserId(userId));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -77,9 +77,9 @@ public class DeviceContrller {
     })
     public Result queryAllDevice_Admin(@RequestParam(value = "userId", defaultValue = "-1", required = false) Integer userId, @RequestParam(value = "systemId", defaultValue = "-1", required = false) Integer systemId, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(value = "orderBy", defaultValue = "id") String orderBy, @RequestParam(value = "sort", defaultValue = "ASC") String sort, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        myVerificationUtil.adminVerification(tokenData);
-        myVerificationUtil.sortVerification(sort);
         try {
+            myVerificationUtil.adminVerification(tokenData);
+            myVerificationUtil.sortVerification(sort);
             if (-1 != systemId) {
                 result = ResultUtil.success(deviceService.queryDeviceBySystemId(systemId));
             } else if (-1 != userId) {
@@ -100,9 +100,9 @@ public class DeviceContrller {
     })
     public Result insertDevice(@RequestBody DeviceParam deviceParam, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifySystemInUser(userId, deviceParam.getSystemId());
         try {
+            int userId = (int) tokenData.get("id");
+            myVerificationUtil.verifySystemInUser(userId, deviceParam.getSystemId());
             result = ResultUtil.success(deviceService.insertDevice(deviceParam));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -117,9 +117,9 @@ public class DeviceContrller {
     })
     public Result updateDevice(@RequestBody DeviceParam deviceParam, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifyDeviceInUser(userId, deviceParam.getId());
         try {
+            int userId = (int) tokenData.get("id");
+            myVerificationUtil.verifyDeviceInUser(userId, deviceParam.getId());
             result = ResultUtil.success(deviceService.updateDevice(deviceParam));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -135,9 +135,9 @@ public class DeviceContrller {
     })
     public Result deleteDevice(@RequestParam int devId, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifyDeviceInUser(userId, devId);
         try {
+            int userId = (int) tokenData.get("id");
+            myVerificationUtil.verifyDeviceInUser(userId, devId);
             result = ResultUtil.success(deviceService.deleteDevice(devId));
         } catch (Exception e) {
             result = handle.exceptionGet(e);

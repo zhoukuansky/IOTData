@@ -53,7 +53,7 @@ public class Swagger2 {
                 .title("IOTData_API文档")
                 .description("API使用及参数定义")
                 .termsOfServiceUrl("http://114.115.243.22/IOTData/swagger-ui.html#")
-                .contact(new Contact("周宽、黄鑫","http://114.115.243.22/IOTData/swagger-ui.html#","zhoukuansky@163.com"))
+                .contact(new Contact("周宽、黄鑫", "http://114.115.243.22/IOTData/swagger-ui.html#", "zhoukuansky@163.com"))
                 .version("1.0")
                 .build();
     }

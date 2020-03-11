@@ -54,8 +54,8 @@ public class OperationController {
     })
     public Result insertOperationType_Admin(@RequestParam String word, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        myVerificationUtil.adminVerification(tokenData);
         try {
+            myVerificationUtil.adminVerification(tokenData);
             result = ResultUtil.success(adminService.insertOperationType_Admin(word));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -67,13 +67,12 @@ public class OperationController {
     @SystemControllerLog(logAction = "deleteOperationType_Admin", logContent = "批量删除操作系统选择项（管理员）")
     @ApiOperation(value = "批量删除操作系统选择项（管理员）", notes = "批量删除操作系统选择项（管理员）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="ids[]", value="需要删除的id数组", required=true,allowMultiple=true, dataType = "int"),
+            @ApiImplicitParam(name = "ids[]", value = "需要删除的id数组", required = true, allowMultiple = true, dataType = "int"),
     })
     public Result deleteOperationType_Admin(@RequestParam(value = "ids[]") int[] ids, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        myVerificationUtil.adminVerification(tokenData);
-        int id = (int) tokenData.get("id");
         try {
+            myVerificationUtil.adminVerification(tokenData);
             result = ResultUtil.success(adminService.deleteOperationType_Admin(ids));
         } catch (Exception e) {
             result = handle.exceptionGet(e);

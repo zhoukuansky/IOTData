@@ -6,26 +6,48 @@
         <result column="value" property="value" jdbcType="DOUBLE"/>
         <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
-        <result column="sersorId" property="sersorId" jdbcType="INTEGER"/>
+        <result column="sensorId" property="sensorId" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, value, createTime, updateTime, sersorId
+    id, value, createTime, updateTime, sensorId
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
+    from numdata
+    where id = #{id,jdbcType=INTEGER}
+</select>
+    <select id="queryNumDataBySensorId" resultMap="BaseResultMap" parameterType="com.iot.model.acceptParam.DataConditionParam">
         select
         <include refid="Base_Column_List"/>
         from numdata
-        where id = #{id,jdbcType=INTEGER}
+        where sensorId = #{sensorId,jdbcType=INTEGER} and createTime between #{startTime,jdbcType=INTEGER} and #{endTime,jdbcType=INTEGER}
+        order by id DESC
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from numdata
     where id = #{id,jdbcType=INTEGER}
   </delete>
+    <delete id="deleteNumDatas" parameterType="java.lang.Integer">
+    delete from numdata
+    where id in
+        <foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+  </delete>
+
     <insert id="insert" parameterType="com.iot.model.NumData">
     insert into numdata (id, value, createTime, 
-      updateTime, sersorId)
+      updateTime, sensorId)
     values (#{id,jdbcType=INTEGER}, #{value,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{sersorId,jdbcType=INTEGER})
+      #{updateTime,jdbcType=TIMESTAMP}, #{sensorId,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertNumDatas" parameterType="java.util.Map">
+     insert into numdata(value,sensorId) values
+        <foreach collection="values" item="item" index="index" separator=",">
+            (#{item},#{sensorId})
+        </foreach>
   </insert>
     <insert id="insertSelective" parameterType="com.iot.model.NumData">
         insert into numdata
@@ -42,8 +64,8 @@
             <if test="updateTime != null">
                 updateTime,
             </if>
-            <if test="sersorId != null">
-                sersorId,
+            <if test="sensorId != null">
+                sensorId,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -59,8 +81,8 @@
             <if test="updateTime != null">
                 #{updateTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="sersorId != null">
-                #{sersorId,jdbcType=INTEGER},
+            <if test="sensorId != null">
+                #{sensorId,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -76,8 +98,8 @@
             <if test="updateTime != null">
                 updateTime = #{updateTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="sersorId != null">
-                sersorId = #{sersorId,jdbcType=INTEGER},
+            <if test="sensorId != null">
+                sensorId = #{sensorId,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
@@ -87,7 +109,7 @@
     set value = #{value,jdbcType=DOUBLE},
       createTime = #{createTime,jdbcType=TIMESTAMP},
       updateTime = #{updateTime,jdbcType=TIMESTAMP},
-      sersorId = #{sersorId,jdbcType=INTEGER}
+      sensorId = #{sensorId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

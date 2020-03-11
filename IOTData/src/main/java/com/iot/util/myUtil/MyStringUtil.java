@@ -16,14 +16,14 @@ import java.util.Random;
  */
 @Component
 public class MyStringUtil {
+    private final String SYMBOLS = "0123456789";
+    private final Random RANDOM = new SecureRandom();
     @Autowired
     private UserService userService;
 
-    private final String SYMBOLS = "0123456789";
-    private final Random RANDOM = new SecureRandom();
-
     /**
      * 生成6位随机验证码
+     *
      * @return 返回6位数字验证码
      */
     public String createEmailVerifyCode() {

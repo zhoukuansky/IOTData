@@ -3,12 +3,11 @@ package com.iot.framework.aop;
 import com.iot.model.Log;
 import com.iot.model.User;
 import com.iot.service.LogService;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -23,11 +22,12 @@ import java.util.Map;
 /**
  * 切点类
  */
+@Slf4j
 @Aspect
 @Component
 public class SystemLogAspect {
 
-    private static final Logger logger = LoggerFactory.getLogger(SystemLogAspect.class);
+    //private static final Logger log = LoggerFactory.getLogger(SystemLogAspect.class);
 
     @Autowired
     private LogService logService;
@@ -116,23 +116,23 @@ public class SystemLogAspect {
             slm.setCreateTime(date);
 
             // *========控制台输出=========*//
-            logger.debug("=====注解参数获取开始=====");
-            logger.debug("请求方法:"
+            log.debug("=====注解参数获取开始=====");
+            log.debug("请求方法:"
                     + (joinPoint.getTarget().getClass().getName() + "."
                     + joinPoint.getSignature().getName() + "()"));
-            logger.debug("操作方法:" + slm.getAction());
-            logger.debug("操作内容:" + slm.getContent());
-            logger.debug("请求IP:" + slm.getIp());
-            logger.debug("用户ID:" + slm.getId());
+            log.debug("操作方法:" + slm.getAction());
+            log.debug("操作内容:" + slm.getContent());
+            log.debug("请求IP:" + slm.getIp());
+            log.debug("用户ID:" + slm.getId());
             // *========数据库日志=========*//
             int res = logService.insert(slm);
             if (res > 0) {
                 System.out.println("SystemLogAspect保存日志成功");
-                logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>保存日志成功");
+                log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>保存日志成功");
             }
         } catch (Exception e) {
             // 记录本地异常日志
-            logger.error("后置通知异常,保存日志异常信息:{}", e.getMessage());
+            log.error("后置通知异常,保存日志异常信息:{}", e.getMessage());
         }
     }
 
@@ -165,11 +165,11 @@ public class SystemLogAspect {
 
             if (res > 0) {
                 System.out.println("SystemLogAspect保存日志成功");
-                logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>保存日志成功");
+                log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>保存日志成功");
             }
         } catch (Exception e) {
             // 记录本地异常日志
-            logger.error("后置通知异常,保存日志异常信息:{}", e.getMessage());
+            log.error("后置通知异常,保存日志异常信息:{}", e.getMessage());
         }
     }
 

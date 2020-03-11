@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Api(tags = {"系统"})
+@Api(tags = {"中间层——系统"})
 @RestController
 @RequestMapping("/system")
 public class SystemContrller {
@@ -37,8 +37,8 @@ public class SystemContrller {
     })
     public Result queryUserSystemInformationByUserId(@CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
         try {
+            int userId = (int) tokenData.get("id");
             result = ResultUtil.success(systemService.queryUserSystemInformationByUserId(userId));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -59,9 +59,9 @@ public class SystemContrller {
     })
     public Result queryAllSystemInformation_Admin(@RequestParam(value = "userId", defaultValue = "-1", required = false) Integer userId, @RequestParam(value = "systemId", defaultValue = "-1", required = false) Integer systemId, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(value = "orderBy", defaultValue = "id") String orderBy, @RequestParam(value = "sort", defaultValue = "ASC") String sort, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        myVerificationUtil.adminVerification(tokenData);
-        myVerificationUtil.sortVerification(sort);
         try {
+            myVerificationUtil.adminVerification(tokenData);
+            myVerificationUtil.sortVerification(sort);
             if (-1 != systemId) {
                 result = ResultUtil.success(systemService.queryOneSystemInformation(systemId));
             } else if (-1 != userId) {
@@ -82,9 +82,9 @@ public class SystemContrller {
     })
     public Result insertSystem(@RequestBody SystemParam systemParam, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int id = (int) tokenData.get("id");
-        systemParam.setUserId(id);
         try {
+            int id = (int) tokenData.get("id");
+            systemParam.setUserId(id);
             result = ResultUtil.success(systemService.insertSystem(systemParam));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -99,9 +99,9 @@ public class SystemContrller {
     })
     public Result updateSystemInformation(@RequestBody SystemParam systemParam, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifySystemInUser(userId, systemParam.getId());
         try {
+            int userId = (int) tokenData.get("id");
+            myVerificationUtil.verifySystemInUser(userId, systemParam.getId());
             result = ResultUtil.success(systemService.updateSystemInformation(systemParam));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -117,10 +117,10 @@ public class SystemContrller {
     })
     public Result deleteSystem(@RequestParam int sysId, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int systemId=sysId;
-        int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifySystemInUser(userId, systemId);
         try {
+            int systemId = sysId;
+            int userId = (int) tokenData.get("id");
+            myVerificationUtil.verifySystemInUser(userId, systemId);
             result = ResultUtil.success(systemService.deleteSystem(systemId));
         } catch (Exception e) {
             result = handle.exceptionGet(e);

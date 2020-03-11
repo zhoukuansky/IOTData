@@ -67,7 +67,7 @@ public class DeviceServiceImpl implements DeviceService {
         return deviceMapper.updateByPrimaryKeySelective(deviceParam);
     }
 
-    @Caching(evict={
+    @Caching(evict = {
             @CacheEvict(value = "DeviceCache", key = "'verifyDevInUser_'+#deviceId"),
     })
     @Override
@@ -75,7 +75,7 @@ public class DeviceServiceImpl implements DeviceService {
         return deviceMapper.deleteByPrimaryKey(deviceId);
     }
 
-    @Cacheable(value = "DeviceCache",key = "'verifyDevInUser_'+#deviceId",unless = "#result==null")
+    @Cacheable(value = "DeviceCache", key = "'verifyDevInUser_'+#deviceId", unless = "#result==null")
     @Override
     public Device verifyDeviceInUser(int deviceId) {
         return deviceMapper.selectByPrimaryKey(deviceId);

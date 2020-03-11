@@ -43,7 +43,7 @@ public class PageResultBean<T> implements Serializable {
         init(rows);
     }
 
-    public PageResultBean(){
+    public PageResultBean() {
 
     }
 

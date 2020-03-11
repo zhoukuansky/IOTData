@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Api(tags = {"关于ApiKey"})
+@Api(tags = {"用户——关于ApiKey"})
 @RestController
 @RequestMapping("/apiKey")
 public class ApiKeyController {
@@ -37,9 +37,9 @@ public class ApiKeyController {
     })
     public Result queryApiKey(@RequestParam String password, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifyPassword(password, userId);
         try {
+            int userId = (int) tokenData.get("id");
+            myVerificationUtil.verifyPassword(password, userId);
             result = ResultUtil.success(userService.queryApiKey(userId));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -55,9 +55,9 @@ public class ApiKeyController {
     })
     public Result updateApiKey(@RequestParam String password, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifyPassword(password, userId);
         try {
+            int userId = (int) tokenData.get("id");
+            myVerificationUtil.verifyPassword(password, userId);
             result = ResultUtil.success(userService.updateApiKey(userId));
         } catch (Exception e) {
             result = handle.exceptionGet(e);

@@ -37,7 +37,7 @@ public class MyVerificationUtil {
     private DeviceService deviceService;
 
     @Autowired
-    private RedisTemplate<String,Object> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 验证管理员权限
@@ -130,7 +130,7 @@ public class MyVerificationUtil {
      * 验证ApiKey是否和sensorId相对应
      * 传参ApiKey
      */
-    public void verifyApiKeyInUserLinkSensorId(String apiKey, int sensorId) throws Exception {
+    public User verifyApiKeyInUserLinkSensorId(String apiKey, int sensorId) throws Exception {
         if (apiKey == null) {
             throw new DescribeException(ExceptionEnum.APIKey_NOT_NULL);
         }
@@ -139,16 +139,16 @@ public class MyVerificationUtil {
             throw new DescribeException(ExceptionEnum.APIKey_NOT_EXIST);
         }
         verifySensorInUser(user.getId(), sensorId);
-        return;
+        return user;
     }
 
     /**
      * 验证邮箱是否已经存在
      * 传参email
      */
-    public void verifyEmailExit(String email) throws Exception{
-        User user=userService.queryUserByEmail(email);
-        if (null!=user){
+    public void verifyEmailExit(String email) throws Exception {
+        User user = userService.queryUserByEmail(email);
+        if (null != user) {
             throw new DescribeException(ExceptionEnum.USER_EXIST);
         }
         return;
@@ -159,9 +159,9 @@ public class MyVerificationUtil {
      * 传参email
      */
     public void verifyEmailOutTime(String email) throws Exception {
-        String emailKey="EmailCache::"+email;
-        String code=(String)redisTemplate.opsForValue().get(emailKey);
-        if (null!=code) {
+        String emailKey = "EmailCache::" + email;
+        String code = (String) redisTemplate.opsForValue().get(emailKey);
+        if (null != code) {
             throw new DescribeException(ExceptionEnum.EMAIL_CODE_EXIT);
         }
         return;
@@ -171,9 +171,9 @@ public class MyVerificationUtil {
      * 验证邮箱验证码
      * 传参email
      */
-    public void verifyEmialCode(String email,String emailCode) throws Exception {
-        String emailKey="EmailCache::"+email;
-        String code=(String)redisTemplate.opsForValue().get(emailKey);
+    public void verifyEmialCode(String email, String emailCode) throws Exception {
+        String emailKey = "EmailCache::" + email;
+        String code = (String) redisTemplate.opsForValue().get(emailKey);
 
         if (!emailCode.equals(code)) {
             throw new DescribeException(ExceptionEnum.EMAIL_CODE_ERROR);
@@ -187,9 +187,21 @@ public class MyVerificationUtil {
      * 传参tel
      */
     public void verifyTelExit(String tel) {
-        User user=userService.queryUserByTel(tel);
-        if (null!=user){
+        User user = userService.queryUserByTel(tel);
+        if (null != user) {
             throw new DescribeException(ExceptionEnum.TEL_EXIST);
+        }
+        return;
+    }
+
+    /**
+     * 验证手机是否已经存在
+     * 传参tel
+     */
+    public void verifySensorType(int sensorId,String type) {
+        Sensor sensor = sensorService.verifySensorInUser(sensorId);
+        if (!sensor.getDataType().equals(type)){
+            throw new DescribeException(ExceptionEnum.DATA_SENSOR_ERROR);
         }
         return;
     }

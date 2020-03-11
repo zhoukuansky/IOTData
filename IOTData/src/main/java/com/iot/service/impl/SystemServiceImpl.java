@@ -30,7 +30,7 @@ public class SystemServiceImpl implements SystemService {
         return systemMapper.queryUserSystemInformationByUserId(userId);
     }
 
-    @Cacheable(value = "SystemCache",key = "'system_'+#systemId")
+    @Cacheable(value = "SystemCache", key = "'system_'+#systemId")
     @Override
     public Object queryOneSystemInformation(Integer systemId) {
         return systemMapper.selectByPrimaryKey(systemId);
@@ -52,16 +52,16 @@ public class SystemServiceImpl implements SystemService {
         return systemMapper.queryUserSystemInformationByUserId(systemParam.getUserId());
     }
 
-    @Caching(evict={
-            @CacheEvict(value = "SystemCache",key = "'system_'+#systemParam.getId()")
+    @Caching(evict = {
+            @CacheEvict(value = "SystemCache", key = "'system_'+#systemParam.getId()")
     })
     @Override
     public Object updateSystemInformation(SystemParam systemParam) {
         return systemMapper.updateByPrimaryKeySelective(systemParam);
     }
 
-    @Caching(evict={
-            @CacheEvict(value = "SystemCache", key ="'system_'+#systemId"),
+    @Caching(evict = {
+            @CacheEvict(value = "SystemCache", key = "'system_'+#systemId"),
             @CacheEvict(value = "SystemCache", key = "'verifySysInUser_'+#systemId"),
     })
     @Override
@@ -69,7 +69,7 @@ public class SystemServiceImpl implements SystemService {
         return systemMapper.deleteByPrimaryKey(systemId);
     }
 
-    @Cacheable(value = "SystemCache",key = "'verifySysInUser_'+#systemId",unless = "#result==null")
+    @Cacheable(value = "SystemCache", key = "'verifySysInUser_'+#systemId", unless = "#result==null")
     @Override
     public Systems verifySystemInUser(int userId, int systemId) {
         Systems systems = systemMapper.verifySystemInUser(userId, systemId);

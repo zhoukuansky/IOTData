@@ -42,6 +42,9 @@ public enum ExceptionEnum {
     EMAIL_CODE_EXIT(701, "验证码服务有效期三分钟，请勿在三分钟内重复进行"),
     EMAIL_CODE_ERROR(702, "验证码过期或错误"),
 
+    //数据点相关
+    DATA_SENSOR_ERROR(801, "数据类型和传感器类型不匹配"),
+
 
     UNKNOW_ERROR(100, "未知错误"),
     ;

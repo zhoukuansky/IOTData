@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Api(tags = {"传感器"})
+@Api(tags = {"中间层——传感器"})
 @RestController
 @RequestMapping("/senser")
 public class SersorController {
@@ -38,9 +38,9 @@ public class SersorController {
     })
     public Result querySensorBySystemId(@RequestParam Integer sysId, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifySystemInUser(userId, sysId);
         try {
+            int userId = (int) tokenData.get("id");
+            myVerificationUtil.verifySystemInUser(userId, sysId);
             result = ResultUtil.success(sensorService.querySensorBySystemId(sysId));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -55,8 +55,8 @@ public class SersorController {
     })
     public Result querySensorByUserId(@CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
         try {
+            int userId = (int) tokenData.get("id");
             result = ResultUtil.success(sensorService.querySensorByUserId(userId));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -77,9 +77,9 @@ public class SersorController {
     })
     public Result queryAllSensor_Admin(@RequestParam(value = "userId", defaultValue = "-1", required = false) Integer userId, @RequestParam(value = "systemId", defaultValue = "-1", required = false) Integer systemId, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(value = "orderBy", defaultValue = "id") String orderBy, @RequestParam(value = "sort", defaultValue = "ASC") String sort, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        myVerificationUtil.adminVerification(tokenData);
-        myVerificationUtil.sortVerification(sort);
         try {
+            myVerificationUtil.adminVerification(tokenData);
+            myVerificationUtil.sortVerification(sort);
             if (-1 != systemId) {
                 result = ResultUtil.success(sensorService.querySensorBySystemId(systemId));
             } else if (-1 != userId) {
@@ -100,9 +100,9 @@ public class SersorController {
     })
     public Result insertSensor(@RequestBody SensorParam sensorParam, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifySystemInUser(userId, sensorParam.getSystemId());
         try {
+            int userId = (int) tokenData.get("id");
+            myVerificationUtil.verifySystemInUser(userId, sensorParam.getSystemId());
             result = ResultUtil.success(sensorService.insertSensor(sensorParam));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -117,9 +117,9 @@ public class SersorController {
     })
     public Result updateSensor(@RequestBody SensorParam sensorParam, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifySensorInUser(userId, sensorParam.getId());
         try {
+            int userId = (int) tokenData.get("id");
+            myVerificationUtil.verifySensorInUser(userId, sensorParam.getId());
             result = ResultUtil.success(sensorService.updateSensor(sensorParam));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -135,9 +135,9 @@ public class SersorController {
     })
     public Result deleteSensor(@RequestParam int sensorId, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        int userId = (int) tokenData.get("id");
-        myVerificationUtil.verifySensorInUser(userId, sensorId);
         try {
+            int userId = (int) tokenData.get("id");
+            myVerificationUtil.verifySensorInUser(userId, sensorId);
             result = ResultUtil.success(sensorService.deleteSensor(sensorId));
         } catch (Exception e) {
             result = handle.exceptionGet(e);

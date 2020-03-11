@@ -54,8 +54,8 @@ public class DataTypeController {
     })
     public Result insertDataType_Admin(@RequestParam String word, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        myVerificationUtil.adminVerification(tokenData);
         try {
+            myVerificationUtil.adminVerification(tokenData);
             result = ResultUtil.success(adminService.insertDataType_Admin(word));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -67,13 +67,13 @@ public class DataTypeController {
     @SystemControllerLog(logAction = "deleteDataType_Admin", logContent = "批量删除传感器数据类型（管理员）")
     @ApiOperation(value = "批量删除传感器数据类型（管理员）", notes = "批量删除传感器数据类型（管理员）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="ids[]", value="需要删除的id数组", required=true,allowMultiple=true, dataType = "int"),
+            @ApiImplicitParam(name = "ids[]", value = "需要删除的id数组", required = true, allowMultiple = true, dataType = "int"),
     })
     public Result deleteDataType_Admin(@RequestParam(value = "ids[]") int[] ids, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
-        myVerificationUtil.adminVerification(tokenData);
-        int id = (int) tokenData.get("id");
         try {
+            myVerificationUtil.adminVerification(tokenData);
+            int id = (int) tokenData.get("id");
             result = ResultUtil.success(adminService.deleteDataType_Admin(ids));
         } catch (Exception e) {
             result = handle.exceptionGet(e);

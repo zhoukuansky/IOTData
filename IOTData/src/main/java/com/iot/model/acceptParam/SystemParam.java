@@ -17,7 +17,7 @@ public class SystemParam<T> {
     @ApiModelProperty(value = "描述信息,非必填")
     private String description;
 
-      @ApiModelProperty(value = "方向选择，此项必须在direction表中，类型为String")
+    @ApiModelProperty(value = "方向选择，此项必须在direction表中，类型为String")
     private String direction;
 
     @ApiModelProperty(value = "操作系统选择，此项必须在operation表中，类型为String")

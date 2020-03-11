@@ -13,7 +13,6 @@ public interface SensorService {
 
     Object insertSensor(SensorParam sensorParam);
 
-
     Object updateSensor(SensorParam sensorParam);
 
     Object deleteSensor(int sensorId);

@@ -60,11 +60,13 @@ spring:
     host: smtp.163.com
     default-encoding: UTF-8
     port: 465
-mybatis:
-  mapper-locations: classpath*:com/**/mapper/*.xml
 pagehelper:
   helperDialect: mysql
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+mybatis:
+  mapper-locations: classpath*:com/**/mapper/*.xml
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
