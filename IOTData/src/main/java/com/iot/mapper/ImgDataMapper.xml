@@ -20,7 +20,7 @@
             #{item}
         </foreach>
     </select>
-    <select id="queryImgBySensorId" resultMap="BaseResultMap"
+    <select id="queryImgBySensorIdAndTime" resultMap="BaseResultMap"
             parameterType="com.iot.model.acceptParam.DataConditionParam">
         select
         <include refid="Base_Column_List"/>
@@ -29,6 +29,13 @@
         #{endTime,jdbcType=INTEGER}
         order by id DESC
     </select>
+    <select id="queryImgBySensorId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from imgdata
+        where sensorId = #{sensorId,jdbcType=INTEGER}
+    </select>
+
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from imgdata

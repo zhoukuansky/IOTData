@@ -22,7 +22,9 @@ public interface ImgDataMapper {
 
     int updateByPrimaryKey(ImgData record);
 
-    List<ImgData> queryImgBySensorId(DataConditionParam dataConditionParam);
+    List<ImgData> queryImgBySensorIdAndTime(DataConditionParam dataConditionParam);
 
     void deleteImgs(int[] ids);
+
+    List<ImgData> queryImgBySensorId(int sensorId);
 }

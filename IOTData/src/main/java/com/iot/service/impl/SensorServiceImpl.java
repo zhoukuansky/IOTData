@@ -2,10 +2,12 @@ package com.iot.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.iot.dao.SensorMapper;
+import com.iot.model.ImgData;
 import com.iot.model.Sensor;
 import com.iot.model.Systems;
 import com.iot.model.acceptParam.SensorParam;
 import com.iot.model.resultAndPage.PageResultBean;
+import com.iot.service.ImgDataService;
 import com.iot.service.SensorService;
 import com.iot.service.SystemService;
 import com.iot.util.exception.DescribeException;
@@ -26,6 +28,9 @@ public class SensorServiceImpl implements SensorService {
 
     @Autowired
     private SystemService systemService;
+
+    @Autowired
+    private ImgDataService imgDataService;
 
     @Override
     public List<Sensor> querySensorBySystemId(Integer systemId) {
@@ -70,6 +75,13 @@ public class SensorServiceImpl implements SensorService {
     @CacheEvict(value = "SensorCache", key = "'verifySenInUser_'+#sensorId")
     @Override
     public Object deleteSensor(int sensorId) {
+        List<ImgData> imgData = imgDataService.queryImgBySensorId(sensorId);
+        int[] ids = new int[imgData.size()];
+        int index = 0;
+        for (ImgData img : imgData) {
+            ids[index++] = img.getId();
+        }
+        imgDataService.deleteImgs(ids);
         return sensorMapper.deleteByPrimaryKey(sensorId);
     }
 

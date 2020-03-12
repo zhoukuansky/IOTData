@@ -16,7 +16,7 @@ public interface SystemService {
 
     Object updateSystemInformation(SystemParam systemParam);
 
-    Object deleteSystem(int systemId);
+    Object deleteSystem(int userId, int systemId);
 
     Systems verifySystemInUser(int userId, int systemId);
 }

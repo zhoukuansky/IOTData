@@ -2,9 +2,11 @@ package com.iot.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.iot.dao.SystemMapper;
+import com.iot.model.Sensor;
 import com.iot.model.Systems;
 import com.iot.model.acceptParam.SystemParam;
 import com.iot.model.resultAndPage.PageResultBean;
+import com.iot.service.SensorService;
 import com.iot.service.SystemService;
 import com.iot.service.UserService;
 import com.iot.util.exception.DescribeException;
@@ -15,12 +17,16 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Service
 public class SystemServiceImpl implements SystemService {
     @Autowired
     private SystemMapper systemMapper;
+
+    @Autowired
+    private SensorService sensorService;
 
     @Autowired
     private UserService userService;
@@ -62,14 +68,20 @@ public class SystemServiceImpl implements SystemService {
 
     @Caching(evict = {
             @CacheEvict(value = "SystemCache", key = "'system_'+#systemId"),
-            @CacheEvict(value = "SystemCache", key = "'verifySysInUser_'+#systemId"),
+            @CacheEvict(value = "SystemCache", key = "'verifySysInUser_'+#userId+'_'+#systemId"),
     })
     @Override
-    public Object deleteSystem(int systemId) {
+    public Object deleteSystem(int userId, int systemId) {
+        List<Sensor> sensor = sensorService.querySensorBySystemId(systemId);
+        Iterator<Sensor> iterator = sensor.iterator();
+        while (iterator.hasNext()) {
+            Sensor it = iterator.next();
+            sensorService.deleteSensor(it.getId());
+        }
         return systemMapper.deleteByPrimaryKey(systemId);
     }
 
-    @Cacheable(value = "SystemCache", key = "'verifySysInUser_'+#systemId", unless = "#result==null")
+    @Cacheable(value = "SystemCache", key = "'verifySysInUser_'+#userId+'_'+#systemId", unless = "#result==null")
     @Override
     public Systems verifySystemInUser(int userId, int systemId) {
         Systems systems = systemMapper.verifySystemInUser(userId, systemId);

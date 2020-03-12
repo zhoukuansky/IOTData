@@ -121,7 +121,7 @@ public class SystemContrller {
             int systemId = sysId;
             int userId = (int) tokenData.get("id");
             myVerificationUtil.verifySystemInUser(userId, systemId);
-            result = ResultUtil.success(systemService.deleteSystem(systemId));
+            result = ResultUtil.success(systemService.deleteSystem(userId, systemId));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }

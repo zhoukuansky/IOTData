@@ -3,9 +3,11 @@ package com.iot.service;
 import com.iot.model.Sensor;
 import com.iot.model.acceptParam.SensorParam;
 
+import java.util.List;
+
 public interface SensorService {
 
-    Object querySensorBySystemId(Integer systemId);
+    List<Sensor> querySensorBySystemId(Integer systemId);
 
     Object querySensorByUserId(int userId);
 

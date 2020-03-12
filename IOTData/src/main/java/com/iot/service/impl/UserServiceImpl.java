@@ -3,8 +3,10 @@ package com.iot.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.iot.dao.UserMapper;
 import com.iot.framework.aop.SystemServiceLog;
+import com.iot.model.Systems;
 import com.iot.model.User;
 import com.iot.model.resultAndPage.PageResultBean;
+import com.iot.service.SystemService;
 import com.iot.service.UserService;
 import com.iot.util.authentication.JwtToken;
 import com.iot.util.exception.DescribeException;
@@ -17,6 +19,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +30,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SystemService systemService;
 
     @Autowired
     private MyStringUtil myStringUtil;
@@ -115,6 +121,12 @@ public class UserServiceImpl implements UserService {
     })
     @Override
     public Object deleteUserAccount(int userId) {
+        List<Systems> system = systemService.queryUserSystemInformationByUserId(userId);
+        Iterator<Systems> iterator = system.iterator();
+        while (iterator.hasNext()) {
+            Systems it = iterator.next();
+            systemService.deleteSystem(userId, it.getId());
+        }
         return userMapper.deleteByPrimaryKey(userId);
     }
 

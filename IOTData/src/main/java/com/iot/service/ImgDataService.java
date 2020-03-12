@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface ImgDataService {
-    List<ImgData> queryImgBySensorId(DataConditionParam dataConditionParam);
+    List<ImgData> queryImgBySensorId(int sensorId);
+
+    List<ImgData> queryImgBySensorIdAndTime(DataConditionParam dataConditionParam);
 
     Map uploadImg(String apiKey, int sensorId, MultipartFile file) throws Exception;
 

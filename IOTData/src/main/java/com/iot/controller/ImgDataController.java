@@ -32,17 +32,17 @@ public class ImgDataController {
     @Autowired
     private MyVerificationUtil myVerificationUtil;
 
-    @PostMapping("/queryImgBySensorId")
-    @SystemControllerLog(logAction = "queryImgBySensorId", logContent = "用户查看图像传感器下的图像数据")
+    @PostMapping("/queryImgBySensorIdAndTime")
+    @SystemControllerLog(logAction = "queryImgBySensorIdAndTime", logContent = "用户查看图像传感器下的图像数据")
     @ApiOperation(value = "用户查看图像传感器下的图像数据", notes = "用户查看图像传感器下的图像数据")
     @ApiImplicitParams({
     })
-    public Result queryImgBySensorId(@RequestBody DataConditionParam dataConditionParam, @CurrentUser Map tokenData) throws Exception {
+    public Result queryImgBySensorIdAndTime(@RequestBody DataConditionParam dataConditionParam, @CurrentUser Map tokenData) throws Exception {
         Result result = ResultUtil.success();
         try {
             int userId = (int) tokenData.get("id");
             myVerificationUtil.verifySensorInUser(userId, dataConditionParam.getSensorId());
-            result = ResultUtil.success(imgDataService.queryImgBySensorId(dataConditionParam));
+            result = ResultUtil.success(imgDataService.queryImgBySensorIdAndTime(dataConditionParam));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }
