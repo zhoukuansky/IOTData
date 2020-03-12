@@ -13,7 +13,7 @@ public class ImgData {
 
     private Integer sensorId;
 
-    private byte[] img;
+    private String img;
 
     public Integer getId() {
         return id;
@@ -51,11 +51,11 @@ public class ImgData {
         this.sensorId = sensorId;
     }
 
-    public byte[] getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(byte[] img) {
+    public void setImg(String img) {
         this.img = img;
     }
 }

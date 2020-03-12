@@ -44,6 +44,8 @@ public enum ExceptionEnum {
 
     //数据点相关
     DATA_SENSOR_ERROR(801, "数据类型和传感器类型不匹配"),
+    IMAGE_NOT_NULL(802, "图片文件为空，请重新上传"),
+    UPLOAD_IMG_ERROR(803, "保存图片失败"),
 
 
     UNKNOW_ERROR(100, "未知错误"),

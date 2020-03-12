@@ -74,7 +74,7 @@ public class MyVerificationUtil {
         if (sensorId == 0) {
             throw new DescribeException(ExceptionEnum.NEED_SENSORID);
         }
-        Sensor sensor = sensorService.verifySensorInUser(sensorId);
+        Sensor sensor = sensorService.querySensorBySensorId(sensorId);
         if (sensor == null) {
             throw new DescribeException(ExceptionEnum.SENSOR_NOT_EXIST);
         }
@@ -195,12 +195,15 @@ public class MyVerificationUtil {
     }
 
     /**
-     * 验证手机是否已经存在
-     * 传参tel
+     * 验证所传数据类型和传感器类型是否匹配
+     * 传参sensorId、type
      */
-    public void verifySensorType(int sensorId,String type) {
-        Sensor sensor = sensorService.verifySensorInUser(sensorId);
-        if (!sensor.getDataType().equals(type)){
+    public void verifySensorType(int sensorId, String type) {
+        Sensor sensor = sensorService.querySensorBySensorId(sensorId);
+        if (sensor == null) {
+            throw new DescribeException(ExceptionEnum.SENSOR_NOT_EXIST);
+        }
+        if (!sensor.getDataType().equals(type)) {
             throw new DescribeException(ExceptionEnum.DATA_SENSOR_ERROR);
         }
         return;

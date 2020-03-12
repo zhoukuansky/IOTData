@@ -75,7 +75,7 @@ public class SensorServiceImpl implements SensorService {
 
     @Cacheable(value = "SensorCache", key = "'verifySenInUser_'+#sensorId", unless = "#result==null")
     @Override
-    public Sensor verifySensorInUser(int sensorId) {
+    public Sensor querySensorBySensorId(int sensorId) {
         return sensorMapper.selectByPrimaryKey(sensorId);
     }
 }

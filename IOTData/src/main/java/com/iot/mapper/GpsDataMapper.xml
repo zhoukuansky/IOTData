@@ -18,11 +18,13 @@
         from gpsdata
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="queryGpsDataBySensorId" resultMap="BaseResultMap" parameterType="com.iot.model.acceptParam.DataConditionParam">
+    <select id="queryGpsDataBySensorId" resultMap="BaseResultMap"
+            parameterType="com.iot.model.acceptParam.DataConditionParam">
         select
         <include refid="Base_Column_List"/>
         from gpsdata
-        where sensorId = #{sensorId,jdbcType=INTEGER} and createTime between #{startTime,jdbcType=INTEGER} and #{endTime,jdbcType=INTEGER}
+        where sensorId = #{sensorId,jdbcType=INTEGER} and createTime between #{startTime,jdbcType=INTEGER} and
+        #{endTime,jdbcType=INTEGER}
         order by id DESC
     </select>
 

@@ -23,7 +23,7 @@ public interface LogMapper {
 
     List<Log> queryOneUserLog(int userId);
 
-    int deleteOneUserLog(int[] ids,int userId);
+    int deleteOneUserLog(int[] ids, int userId);
 
     int deleteLog_Admin(int[] ids);
 }

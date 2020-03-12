@@ -28,21 +28,21 @@ public class WebSecurityConfig extends WebMvcConfigurationSupport {
                                 "/swagger-resources",
                                 "/swagger-resources/**",
                                 "/webjars/**",
-                                "/IOTData",
                                 "/druid/**"
                         );
         super.addInterceptors(registry);
     }
 
     @Override
+    /**
+     * addResourceLocations指的是文件放置的目录，addResoureHandler指的是对外暴露的访问路径
+     */
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/META-INF/resources/")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/")
                 .addResourceLocations("classpath:/resources/")
                 .addResourceLocations("classpath:/static/")
-                .addResourceLocations("classpath:/public/")
-                .addResourceLocations("classpath:/webapp/");
+                .addResourceLocations("classpath:/public/");
         super.addResourceHandlers(registry);
     }
 

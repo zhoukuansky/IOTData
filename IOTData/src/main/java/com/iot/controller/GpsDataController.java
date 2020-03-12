@@ -32,8 +32,8 @@ public class GpsDataController {
     private MyVerificationUtil myVerificationUtil;
 
     @PostMapping("/queryGpsDataBySensorId")
-    @SystemControllerLog(logAction = "queryGpsDataBySensorId", logContent = "用户查看某传感器下的经纬度数据")
-    @ApiOperation(value = "用户查看某传感器下的经纬度数据", notes = "用户查看某传感器下的经纬度数据")
+    @SystemControllerLog(logAction = "queryGpsDataBySensorId", logContent = "用户查看经纬度传感器下的经纬度数据")
+    @ApiOperation(value = "用户查看经纬度传感器下的经纬度数据", notes = "用户查看经纬度传感器下的经纬度数据")
     @ApiImplicitParams({
     })
     public Result queryGpsDataBySensorId(@RequestBody DataConditionParam dataConditionParam, @CurrentUser Map tokenData) throws Exception {
@@ -58,11 +58,11 @@ public class GpsDataController {
             @ApiImplicitParam(name = "lat", value = "纬度", required = true, dataType = "double"),
             @ApiImplicitParam(name = "lng", value = "经度", required = true, dataType = "double"),
     })
-    public Result insertGpsDatas(@RequestHeader String apiKey, @RequestParam int sensorId, @RequestParam double lat,@RequestParam double lng) throws Exception {
+    public Result insertGpsDatas(@RequestHeader String apiKey, @RequestParam int sensorId, @RequestParam double lat, @RequestParam double lng) throws Exception {
         Result result = ResultUtil.success();
         try {
-            myVerificationUtil.verifySensorType(sensorId,"经纬度数据");
-            gpsDataService.insertGpsDatas(apiKey, sensorId, lat,lng);
+            myVerificationUtil.verifySensorType(sensorId, "经纬度数据");
+            gpsDataService.insertGpsDatas(apiKey, sensorId, lat, lng);
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }
@@ -70,8 +70,8 @@ public class GpsDataController {
     }
 
     @DeleteMapping("/deleteGpsDatas")
-    @SystemControllerLog(logAction = "deleteGpsDatas", logContent = "批量删除某传感器下经纬度数据点")
-    @ApiOperation(value = "批量删除某传感器下经纬度数据点", notes = "批量删除某传感器下经纬度数据点")
+    @SystemControllerLog(logAction = "deleteGpsDatas", logContent = "批量删除经纬度传感器下经纬度数据点")
+    @ApiOperation(value = "批量删除经纬度传感器下经纬度数据点", notes = "批量删除经纬度传感器下经纬度数据点")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ids[]", value = "需要删除的id数组", required = true, allowMultiple = true, dataType = "int"),
             @ApiImplicitParam(name = "sensorId", value = "传感器id", required = true, dataType = "String"),

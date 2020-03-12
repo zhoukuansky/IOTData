@@ -20,6 +20,7 @@ public class IotApplication extends SpringBootServletInitializer {
         SpringApplication.run(IotApplication.class, args);
     }
 
+
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(IotApplication.class);

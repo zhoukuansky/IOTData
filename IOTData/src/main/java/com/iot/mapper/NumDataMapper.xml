@@ -12,16 +12,18 @@
     id, value, createTime, updateTime, sensorId
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    select
-    <include refid="Base_Column_List"/>
-    from numdata
-    where id = #{id,jdbcType=INTEGER}
-</select>
-    <select id="queryNumDataBySensorId" resultMap="BaseResultMap" parameterType="com.iot.model.acceptParam.DataConditionParam">
         select
         <include refid="Base_Column_List"/>
         from numdata
-        where sensorId = #{sensorId,jdbcType=INTEGER} and createTime between #{startTime,jdbcType=INTEGER} and #{endTime,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="queryNumDataBySensorId" resultMap="BaseResultMap"
+            parameterType="com.iot.model.acceptParam.DataConditionParam">
+        select
+        <include refid="Base_Column_List"/>
+        from numdata
+        where sensorId = #{sensorId,jdbcType=INTEGER} and createTime between #{startTime,jdbcType=INTEGER} and
+        #{endTime,jdbcType=INTEGER}
         order by id DESC
     </select>
 
@@ -30,12 +32,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <delete id="deleteNumDatas" parameterType="java.lang.Integer">
-    delete from numdata
-    where id in
+        delete from numdata
+        where id in
         <foreach collection="array" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
-  </delete>
+    </delete>
 
     <insert id="insert" parameterType="com.iot.model.NumData">
     insert into numdata (id, value, createTime, 
@@ -44,11 +46,11 @@
       #{updateTime,jdbcType=TIMESTAMP}, #{sensorId,jdbcType=INTEGER})
   </insert>
     <insert id="insertNumDatas" parameterType="java.util.Map">
-     insert into numdata(value,sensorId) values
+        insert into numdata(value,sensorId) values
         <foreach collection="values" item="item" index="index" separator=",">
             (#{item},#{sensorId})
         </foreach>
-  </insert>
+    </insert>
     <insert id="insertSelective" parameterType="com.iot.model.NumData">
         insert into numdata
         <trim prefix="(" suffix=")" suffixOverrides=",">

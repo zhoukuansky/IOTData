@@ -137,26 +137,26 @@ public class UserController {
         return result;
     }
 
-    @DeleteMapping("/deleteUser_Admin")
-    @SystemControllerLog(logAction = "deleteUser_Admin", logContent = "批量删除账户（管理员）")
-    @ApiOperation(value = "批量删除账户（管理员）", notes = "批量删除账户（管理员）")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "emailCode", value = "验证码", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "ids[]", value = "需要删除的id数组", required = true, allowMultiple = true, dataType = "int"),
-    })
-    public Result deleteUser_Admin(@RequestParam String emailCode, @RequestParam(value = "ids[]") int[] ids, @CurrentUser Map tokenData) throws Exception {
-        Result result = ResultUtil.success();
-        try {
-            int userId = (int) tokenData.get("id");
-            String email = (String) tokenData.get("email");
-            myVerificationUtil.adminVerification(tokenData);
-            myVerificationUtil.verifyEmialCode(email, emailCode);
-            result = ResultUtil.success(userService.deleteUser_Admin(ids));
-        } catch (Exception e) {
-            result = handle.exceptionGet(e);
-        }
-        return result;
-    }
+//    @DeleteMapping("/deleteUser_Admin")
+//    @SystemControllerLog(logAction = "deleteUser_Admin", logContent = "批量删除账户（管理员）")
+//    @ApiOperation(value = "批量删除账户（管理员）", notes = "批量删除账户（管理员）")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "emailCode", value = "验证码", required = true, dataType = "String"),
+//            @ApiImplicitParam(name = "ids[]", value = "需要删除的id数组", required = true, allowMultiple = true, dataType = "int"),
+//    })
+//    public Result deleteUser_Admin(@RequestParam String emailCode, @RequestParam(value = "ids[]") int[] ids, @CurrentUser Map tokenData) throws Exception {
+//        Result result = ResultUtil.success();
+//        try {
+//            int userId = (int) tokenData.get("id");
+//            String email = (String) tokenData.get("email");
+//            myVerificationUtil.adminVerification(tokenData);
+//            myVerificationUtil.verifyEmialCode(email, emailCode);
+//            result = ResultUtil.success(userService.deleteUser_Admin(ids));
+//        } catch (Exception e) {
+//            result = handle.exceptionGet(e);
+//        }
+//        return result;
+//    }
 
     @GetMapping("/emailDelete")
     @ApiOperation(value = "发送注销账户验证邮件", notes = "发送注销账户验证邮件")

@@ -17,5 +17,5 @@ public interface SensorService {
 
     Object deleteSensor(int sensorId);
 
-    Sensor verifySensorInUser(int sensorId);
+    Sensor querySensorBySensorId(int sensorId);
 }

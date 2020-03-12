@@ -3,31 +3,45 @@
 <mapper namespace="com.iot.dao.ImgDataMapper">
     <resultMap id="BaseResultMap" type="com.iot.model.ImgData">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="img" property="img" jdbcType="CHAR"/>
         <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="sensorId" property="sensorId" jdbcType="INTEGER"/>
     </resultMap>
-    <resultMap id="ResultMapWithBLOBs" type="com.iot.model.ImgData" extends="BaseResultMap">
-        <result column="img" property="img" jdbcType="LONGVARBINARY"/>
-    </resultMap>
     <sql id="Base_Column_List">
-    id, createTime, updateTime, sensorId
+    id, img, createTime, updateTime, sensorId
   </sql>
-    <sql id="Blob_Column_List">
-    img
-  </sql>
-    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
         from imgdata
-        where id = #{id,jdbcType=INTEGER}
+        where id in
+        <foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
+    <select id="queryImgBySensorId" resultMap="BaseResultMap"
+            parameterType="com.iot.model.acceptParam.DataConditionParam">
+        select
+        <include refid="Base_Column_List"/>
+        from imgdata
+        where sensorId = #{sensorId,jdbcType=INTEGER} and createTime between #{startTime,jdbcType=INTEGER} and
+        #{endTime,jdbcType=INTEGER}
+        order by id DESC
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from imgdata
     where id = #{id,jdbcType=INTEGER}
   </delete>
+    <delete id="deleteImgs" parameterType="java.lang.Integer">
+        delete from imgdata
+        where id in
+        <foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
     <insert id="insert" parameterType="com.iot.model.ImgData">
     insert into imgdata (id, createTime, updateTime, 
       sensorId, img)
@@ -37,15 +51,6 @@
     <insert id="insertSelective" parameterType="com.iot.model.ImgData">
         insert into imgdata
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="createTime != null">
-                createTime,
-            </if>
-            <if test="updateTime != null">
-                updateTime,
-            </if>
             <if test="sensorId != null">
                 sensorId,
             </if>
@@ -54,15 +59,6 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
-            </if>
             <if test="sensorId != null">
                 #{sensorId,jdbcType=INTEGER},
             </if>

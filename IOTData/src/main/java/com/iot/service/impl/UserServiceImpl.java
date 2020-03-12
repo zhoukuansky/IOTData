@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @SystemServiceLog(logAction = "register", logContent = "用户注册")
     public synchronized Map insertUser(String email, String password, String role) {
-        Map<String,User> result = new HashMap<String,User>(16);
+        Map<String, User> result = new HashMap<String, User>(16);
         String apiKey = myStringUtil.createApiKey();
         userMapper.insert(email, password, role, apiKey);
         //这里采用result<Map>方式返回，而非直接返回的原因是aop日志，可以直接一个函数处理登录和注册，以免再写一个函数
@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
     public Object queryAllUser_Admin(int pageNum, int pageSize, String orderBy, String sort) {
         String order = orderBy + " " + sort;
         PageHelper.startPage(pageNum, pageSize, order);
-        List user=userMapper.queryAllUser_Admin();
+        List user = userMapper.queryAllUser_Admin();
         return new PageResultBean<>(user);
     }
 
@@ -110,8 +110,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Caching(evict={
-            @CacheEvict(value = "UserInfoCache", key ="'user_'+#userId"),
+    @Caching(evict = {
+            @CacheEvict(value = "UserInfoCache", key = "'user_'+#userId"),
     })
     @Override
     public Object deleteUserAccount(int userId) {
@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.verifyApiKey(apiKey);
     }
 
-    @Cacheable(value = "UserInfoCache",key = "'ApiKey_'+#userId")
+    @Cacheable(value = "UserInfoCache", key = "'ApiKey_'+#userId")
     @Override
     public Map queryApiKey(int userId) {
         User user = userMapper.queryApiKey(userId);
@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
         return apiMap;
     }
 
-    @CacheEvict(value = "UserInfoCache",key = "'ApiKey_'+#userId",beforeInvocation = true)
+    @CacheEvict(value = "UserInfoCache", key = "'ApiKey_'+#userId", beforeInvocation = true)
     @Override
     public Map updateApiKey(int userId) {
         String apiKey = myStringUtil.createApiKey();

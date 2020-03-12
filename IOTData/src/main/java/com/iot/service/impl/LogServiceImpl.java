@@ -39,7 +39,7 @@ public class LogServiceImpl implements LogService {
     @Override
     public int deleteOneUserLog(int[] ids, int userId) {
         Map<String, Object> params = new HashMap<String, Object>(2);
-        return logMapper.deleteOneUserLog(ids,userId);
+        return logMapper.deleteOneUserLog(ids, userId);
     }
 
     @Override

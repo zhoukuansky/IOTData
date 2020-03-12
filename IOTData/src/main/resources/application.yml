@@ -60,6 +60,11 @@ spring:
     host: smtp.163.com
     default-encoding: UTF-8
     port: 465
+  #配置限制上传文件大小，单个和总共
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 15MB
 pagehelper:
   helperDialect: mysql
   reasonable: true

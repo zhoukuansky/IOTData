@@ -32,8 +32,8 @@ public class NumDataController {
     private MyVerificationUtil myVerificationUtil;
 
     @PostMapping("/queryNumDataBySensorId")
-    @SystemControllerLog(logAction = "queryNumDataBySensorId", logContent = "用户查看某传感器下的数值数据")
-    @ApiOperation(value = "用户查看某传感器下的数值数据", notes = "用户查看某传感器下的数值数据")
+    @SystemControllerLog(logAction = "queryNumDataBySensorId", logContent = "用户查看数值传感器下的数值数据")
+    @ApiOperation(value = "用户查看数值传感器下的数值数据", notes = "用户查看数值传感器下的数值数据")
     @ApiImplicitParams({
     })
     public Result queryNumDataBySensorId(@RequestBody DataConditionParam dataConditionParam, @CurrentUser Map tokenData) throws Exception {
@@ -60,7 +60,7 @@ public class NumDataController {
     public Result insertNumDatas(@RequestHeader String apiKey, @RequestParam int sensorId, @RequestParam(value = "values[]") double[] values) throws Exception {
         Result result = ResultUtil.success();
         try {
-            myVerificationUtil.verifySensorType(sensorId,"数值数据");
+            myVerificationUtil.verifySensorType(sensorId, "数值数据");
             numDataService.insertNumDatas(apiKey, sensorId, values);
         } catch (Exception e) {
             result = handle.exceptionGet(e);
@@ -69,8 +69,8 @@ public class NumDataController {
     }
 
     @DeleteMapping("/deleteNumDatas")
-    @SystemControllerLog(logAction = "deleteNumDatas", logContent = "批量删除某传感器下数值数据点")
-    @ApiOperation(value = "批量删除某传感器下数值数据点", notes = "批量删除某传感器下数值数据点")
+    @SystemControllerLog(logAction = "deleteNumDatas", logContent = "批量删除数值传感器下数值数据点")
+    @ApiOperation(value = "批量删除数值传感器下数值数据点", notes = "批量删除数值传感器下数值数据点")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ids[]", value = "需要删除的id数组", required = true, allowMultiple = true, dataType = "int"),
             @ApiImplicitParam(name = "sensorId", value = "传感器id", required = true, dataType = "String"),

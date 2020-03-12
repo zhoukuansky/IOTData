@@ -1,7 +1,10 @@
 package com.iot.dao;
 
 import com.iot.model.ImgData;
+import com.iot.model.acceptParam.DataConditionParam;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface ImgDataMapper {
@@ -11,11 +14,15 @@ public interface ImgDataMapper {
 
     int insertSelective(ImgData record);
 
-    ImgData selectByPrimaryKey(Integer id);
+    List<ImgData> selectByPrimaryKey(int[] ids);
 
     int updateByPrimaryKeySelective(ImgData record);
 
     int updateByPrimaryKeyWithBLOBs(ImgData record);
 
     int updateByPrimaryKey(ImgData record);
+
+    List<ImgData> queryImgBySensorId(DataConditionParam dataConditionParam);
+
+    void deleteImgs(int[] ids);
 }
