@@ -80,7 +80,7 @@ public class LoginAndRegister {
     }
 
     @PostMapping("/register_Admin")
-    @ApiOperation(value = "管理员注册", notes = "管理员注册")
+    @ApiOperation(value = "注册（管理员）", notes = "注册（管理员）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "email", value = "email", required = true, dataType = "String"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),

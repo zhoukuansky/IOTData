@@ -65,7 +65,7 @@ public class DirectionController {
 
     @DeleteMapping("/deleteDirectionType_Admin")
     @SystemControllerLog(logAction = "deleteDirectionType_Admin", logContent = "批量删除系统方向选择项（管理员）")
-    @ApiOperation(value = "批量删除系统方向选择项（管理员）", notes = "批量删除系统方向选择项（管理员）")
+    @ApiOperation(value = "批量删除系统方向选择项（管理员）", notes = "批量删除系统方向选择项（queryImgBySensorIdAndTime）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ids[]", value = "需要删除的id数组", required = true, allowMultiple = true, dataType = "int"),
     })

@@ -47,8 +47,8 @@ public class SystemContrller {
     }
 
     @GetMapping("/queryAllSystemInformation_Admin")
-    @SystemControllerLog(logAction = "queryAllSystemInformation_Admin", logContent = "管理员查看所有系统信息")
-    @ApiOperation(value = "管理员查看所有系统信息", notes = "管理员查看所有系统信息")
+    @SystemControllerLog(logAction = "queryAllSystemInformation_Admin", logContent = "查看所有系统信息（管理员）")
+    @ApiOperation(value = "查看所有系统信息（管理员）", notes = "查看所有系统信息（管理员）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "此项可不填：填时则单独查看某用户名下系统信息", required = false, dataType = "int"),
             @ApiImplicitParam(name = "systemId", value = "此项可不填：填时则单独查看某系统信息", required = false, dataType = "int"),

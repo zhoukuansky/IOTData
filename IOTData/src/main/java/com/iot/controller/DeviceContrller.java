@@ -65,8 +65,8 @@ public class DeviceContrller {
     }
 
     @GetMapping("/queryAllDevice_Admin")
-    @SystemControllerLog(logAction = "queryAllDevice_Admin", logContent = "管理员查看所有设备信息")
-    @ApiOperation(value = "管理员查看所有设备信息", notes = "管理员查看所有设备信息")
+    @SystemControllerLog(logAction = "queryAllDevice_Admin", logContent = "查看所有设备信息")
+    @ApiOperation(value = "查看所有设备信息（管理员）", notes = "查看所有设备信息（管理员）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "此项可不填：填时则单独查看某用户名下设备", required = false, dataType = "int"),
             @ApiImplicitParam(name = "systemId", value = "此项可不填：填时则单独查看某系统名下设备", required = false, dataType = "int"),
