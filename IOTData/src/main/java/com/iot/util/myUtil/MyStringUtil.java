@@ -38,7 +38,7 @@ public class MyStringUtil {
     /**
      * 生成随机字符串
      *
-     * @param stringLength:生成30位随机字符串
+     * @param:
      * @return
      */
     public String createApiKey() {
@@ -60,7 +60,7 @@ public class MyStringUtil {
     /**
      * 验证生成的字符串是否已存在
      *
-     * @param stringLength:生成的字符串长度
+     * @param:
      * @return
      */
     public boolean isExist(String result) {

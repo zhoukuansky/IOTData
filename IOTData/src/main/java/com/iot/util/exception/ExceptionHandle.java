@@ -28,8 +28,8 @@ public class ExceptionHandle {
          * 在运行转态中，class可以是object对象的父类，自身类，不能是子类。在前两种情况下result的结果为true，最后一种为false。但是class为子类时编译不会报错。运行结果为false。
          */
         if (e instanceof DescribeException) {
-            DescribeException MyException = (DescribeException) e;
-            return ResultUtil.error(MyException.getCode(), MyException.getMessage());
+            DescribeException myException = (DescribeException) e;
+            return ResultUtil.error(myException.getCode(), myException.getMessage());
         } else if (e instanceof HttpRequestMethodNotSupportedException) {
             return ResultUtil.error(ExceptionEnum.METHOD_FAILED);
         } else if (e instanceof MissingServletRequestParameterException) {

@@ -19,7 +19,7 @@ public class DescribeException extends RuntimeException {
      * @param message
      * @param code
      */
-    public DescribeException(String message, Integer code) {
+    public DescribeException(Integer code,String message ) {
         super(message);
         this.code = code;
     }
