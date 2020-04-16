@@ -5,7 +5,7 @@ spring:
     serialization:
       write-dates-as-timestamps: false
   datasource:
-    url: jdbc:mysql://localhost:3306/IOTData?useUnicode=true&amp&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/IOTData?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver

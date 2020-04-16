@@ -9,6 +9,10 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.cache.annotation.EnableCaching;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * @author zk
+ * @date 2020.02-2020.03
+ */
 @EnableSwagger2
 @ServletComponentScan
 @SpringBootApplication
