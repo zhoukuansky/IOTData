@@ -18,7 +18,7 @@ public enum ExceptionEnum {
     //请求方法相关
     METHOD_FAILED(301, "请求方法错误，请尝试其他请求方法"),
     PARAMETER_ERROR(302, "上传参数不正确或不完整，请重新请求"),
-    SORT_ERROR(302, "排序字段错误"),
+    SORT_ERROR(303, "排序字段错误"),
     DATABASE_ERROR(304, "数据库外键冲突"),
 
     //系统、传感器、设备相关

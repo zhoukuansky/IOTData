@@ -21,7 +21,7 @@ import java.util.List;
 public class MyImageUtil {
     private final String UPLOAD_FOLDER = "/var/www/html/images";
     //private final String UPLOAD_FOLDER = "G:/images";
-    private final String URL = "http://114.115.243.22:88/images";
+    private final String URL = "http://114.115.243.22/images";
     @Autowired
     private MyStringUtil myStringUtil;
 
