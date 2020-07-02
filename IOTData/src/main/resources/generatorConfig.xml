@@ -6,7 +6,7 @@
 <generatorConfiguration>
     <!--sql 连接数据库jar 注意路径-->
     <classPathEntry
-        location="F:\maven3.5.3\repository\mysql\mysql-connector-java\5.1.41\mysql-connector-java-5.1.41.jar"/>
+        location="F:\maven\repository\mysql\mysql-connector-java\5.1.41\mysql-connector-java-5.1.41.jar"/>
     <context id="IOTData" targetRuntime="MyBatis3">
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->

@@ -10,7 +10,10 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.util.List;
-
+/**
+ * 继承WebMvcConfigurationAdapter已经废弃
+ * 实现WebMvcConfigurer
+ */
 @Configuration
 public class WebSecurityConfig extends WebMvcConfigurationSupport {
     /**
