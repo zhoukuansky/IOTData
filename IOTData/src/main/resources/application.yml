@@ -56,7 +56,7 @@ spring:
         max-active: 8 #连接池最大阻塞等待时间（使用负值表示没有限制）
   mail:
     username: zhoukuansky@163.com
-    password: 654321
+    password: KCQFRZCARPCWMCPA
     host: smtp.163.com
     default-encoding: UTF-8
     port: 465
