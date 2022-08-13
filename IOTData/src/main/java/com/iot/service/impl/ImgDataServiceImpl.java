@@ -46,14 +46,15 @@ public class ImgDataServiceImpl implements ImgDataService {
     @SystemServiceLog(logAction = "uploadImg", logContent = "新增一条图像数据")
     public synchronized Map uploadImg(String apiKey, int sensorId, MultipartFile file) throws Exception {
         User user = myVerificationUtil.verifyApiKeyInUserLinkSensorId(apiKey, sensorId);
-        Map<String, User> result = new HashMap<String, User>();
+        Map result = new HashMap<>();
         result.put("user", user);
 
-        String img = myImageUtil.saveImage(sensorId, file);
+        String url = myImageUtil.saveImage(sensorId, file);
+        result.put("url", url);
 
         ImgData imgData = new ImgData();
         imgData.setSensorId(sensorId);
-        imgData.setImg(img);
+        imgData.setImg(url);
         imgDataMapper.insertSelective(imgData);
 
         return result;

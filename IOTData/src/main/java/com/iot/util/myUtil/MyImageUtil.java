@@ -19,9 +19,9 @@ import java.util.List;
  */
 @Component
 public class MyImageUtil {
-    private final String UPLOAD_FOLDER = "/var/www/html/images";
+    private final String UPLOAD_FOLDER = "/mycode/nginx/html/images";
     //private final String UPLOAD_FOLDER = "G:/images";
-    private final String URL = "http://114.115.243.22/images";
+    private final String URL = "http://my.zksky.top/images";
     @Autowired
     private MyStringUtil myStringUtil;
 

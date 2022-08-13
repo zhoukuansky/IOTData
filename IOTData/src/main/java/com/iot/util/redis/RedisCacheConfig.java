@@ -73,7 +73,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
                 .put("SensorCache", config.entryTtl(Duration.ofMinutes(30)))
                 .put("DeviceCache", config.entryTtl(Duration.ofMinutes(10)))
                 .put("LogCache", config.entryTtl(Duration.ofMinutes(10)))
-                .put("EmailCache", config.entryTtl(Duration.ofMinutes(3)))
+                .put("EmailCache", config.entryTtl(Duration.ofMinutes(10)))
                 .build();
 
         RedisCacheManager redisCacheManager =

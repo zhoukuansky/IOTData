@@ -60,7 +60,7 @@ public class ImgDataController {
         Result result = ResultUtil.success();
         try {
             myVerificationUtil.verifySensorType(sensorId, "图像数据");
-            imgDataService.uploadImg(apiKey, sensorId, file);
+            result = ResultUtil.success(imgDataService.uploadImg(apiKey, sensorId, file));
         } catch (Exception e) {
             result = handle.exceptionGet(e);
         }
