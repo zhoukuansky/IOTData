@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iot.dao.LogMapper">
+    <resultMap id="BaseResultMap" type="com.iot.model.Log">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="ip" property="ip" jdbcType="CHAR"/>
+        <result column="userId" property="userId" jdbcType="INTEGER"/>
+        <result column="action" property="action" jdbcType="CHAR"/>
+        <result column="content" property="content" jdbcType="CHAR"/>
+        <result column="createTime" property="createTime" jdbcType="CHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, ip, userId, action, content, createTime
+  </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from log
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="queryAllLog_Admin" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        *
+        from log
+    </select>
+    <select id="queryOneUserLog" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        *
+        from log
+        where userId = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteOneUserLog" parameterType="java.util.Map">
+        delete from log where userId=#{userId,jdbcType=INTEGER}
+        and id in
+        <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteLog_Admin" parameterType="java.lang.Integer">
+        delete from log where 1>2
+        or id in
+        <foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <insert id="insert" parameterType="com.iot.model.Log">
+    insert into log (ip, userId,action, content, createTime)
+    values ( #{ip,jdbcType=CHAR}, #{userId,jdbcType=INTEGER},#{action,jdbcType=CHAR}, #{content,jdbcType=CHAR}, #{createTime,jdbcType=CHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.iot.model.Log">
+        insert into log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="userId != null">
+                userId,
+            </if>
+            <if test="action != null">
+                action,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="createTime != null">
+                createTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=CHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="action != null">
+                #{action,jdbcType=CHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.iot.model.Log">
+        update log
+        <set>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=CHAR},
+            </if>
+            <if test="userId != null">
+                userId = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="action != null">
+                action = #{action,jdbcType=CHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime,jdbcType=CHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.iot.model.Log">
+    update log
+    set ip = #{ip,jdbcType=CHAR},
+      userId = #{userId,jdbcType=INTEGER},
+      action = #{action,jdbcType=CHAR},
+      content = #{content,jdbcType=CHAR},
+      createTime = #{createTime,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

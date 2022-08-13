@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iot.dao.SystemMapper">
+    <resultMap id="BaseResultMap" type="com.iot.model.Systems">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="CHAR"/>
+        <result column="description" property="description" jdbcType="CHAR"/>
+        <result column="direction" property="direction" jdbcType="CHAR"/>
+        <result column="operation" property="operation" jdbcType="CHAR"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="userId" property="userId" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name,description,direction,operation,createTime,updateTime,userId
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from systems
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="queryUserSystemInformationByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from systems
+        where userId = #{userId,jdbcType=INTEGER}
+    </select>
+    <select id="verifySystemInUser" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from systems
+        where id = #{systemId,jdbcType=INTEGER} and userId = #{userId,jdbcType=INTEGER}
+    </select>
+    <select id="queryAllSystemInformation_Admin" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from systems
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from systems
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.iot.model.Systems">
+    insert into systems (id, name, description,
+      createTime, direction, operation,
+      userId)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=CHAR}, #{description,jdbcType=CHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{direction,jdbcType=CHAR}, #{operation,jdbcType=CHAR},
+      #{userId,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.iot.model.acceptParam.SystemParam">
+        insert into systems
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="direction != null">
+                direction,
+            </if>
+            <if test="operation != null">
+                operation,
+            </if>
+            <if test="userId != null">
+                userId,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=CHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=CHAR},
+            </if>
+            <if test="direction != null">
+                #{direction,jdbcType=CHAR},
+            </if>
+            <if test="operation != null">
+                #{operation,jdbcType=CHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.iot.model.acceptParam.SystemParam">
+        update systems
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=CHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=CHAR},
+            </if>
+            <if test="direction != null">
+                direction = #{direction,jdbcType=CHAR},
+            </if>
+            <if test="operation != null">
+                operation = #{operation,jdbcType=CHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.iot.model.Systems">
+    update systems
+    set name = #{name,jdbcType=CHAR},
+      description = #{description,jdbcType=CHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      direction = #{direction,jdbcType=CHAR},
+      operation = #{operation,jdbcType=CHAR},
+      userId = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
